@@ -10,134 +10,140 @@ WORKSHOP = {
         "fluid": "0W-20 Synthetic Oil",
         "capacity": "5.7 L",
         "interval_km": 8000,
-        "notes": "Oil + filter change",
         "sockets": {
-            "drain_plug": "14 mm",
+            "drain plug": "14 mm",
             "filter": "Toyota cartridge wrench"
         },
         "workflow": [
             "Warm engine slightly",
-            "Lift vehicle safely",
-            "Remove skid plate (if equipped)",
+            "Remove skid plate if equipped",
             "Remove drain plug (14 mm)",
             "Drain oil completely",
             "Replace crush washer",
             "Reinstall drain plug",
             "Replace oil filter",
             "Refill with 5.7 L oil",
-            "Start engine and check for leaks"
+            "Start engine and check leaks"
         ]
     },
 
     "Transmission (Drain & Fill)": {
         "fluid": "Toyota ATF WS",
         "capacity": "3.0–4.3 L",
-        "interval_km": 80000,
+        "interval_km": 150000,
         "temp": "40–45°C",
-        "torque": "20 Nm (check plug)",
+        "torque": "20 Nm",
         "sockets": {
-            "fill_plug": "24 mm",
-            "drain_plug": "14 mm",
-            "level_check": "5 mm Allen"
+            "fill plug": "24 mm",
+            "drain plug": "14 mm",
+            "level check": "5 mm Allen"
         },
         "workflow": [
             "Warm transmission to operating temp",
             "Level vehicle on flat ground",
             "Remove fill plug FIRST (24 mm)",
-            "Place drain pan",
-            "Remove drain plug (14 mm)",
-            "Let fluid fully drain",
-            "Reinstall drain plug with new washer",
-            "Fill with ATF WS until overflow",
-            "Check fluid temp (40–45°C)",
+            "Drain fluid (14 mm)",
+            "Reinstall drain plug",
+            "Fill with ATF WS",
+            "Check fluid at 40–45°C",
             "Install level plug",
-            "Verify no leaks"
+            "Check for leaks"
         ]
     },
 
     "Front Differential": {
         "fluid": "75W-85 GL-5",
         "capacity": "1.3 L",
-        "interval_km": 48000,
+        "interval_km": 80000,
         "torque": "65 Nm",
         "sockets": {
-            "fill_plug": "24 mm",
-            "drain_plug": "24 mm"
+            "fill plug": "24 mm",
+            "drain plug": "24 mm"
         },
         "workflow": [
-            "Ensure vehicle is level",
-            "Remove fill plug FIRST (24 mm)",
-            "Place drain pan under diff",
-            "Remove drain plug",
-            "Allow full drain",
-            "Reinstall drain plug with crush washer",
+            "Remove fill plug FIRST",
+            "Drain fluid",
+            "Reinstall drain plug",
             "Torque to 65 Nm",
-            "Fill until fluid reaches bottom of fill hole",
+            "Fill until overflow",
             "Reinstall fill plug",
-            "Torque to 65 Nm",
-            "Check for leaks"
+            "Torque to 65 Nm"
         ]
     },
 
     "Rear Differential": {
         "fluid": "75W-85 GL-5",
         "capacity": "2.7 L",
-        "interval_km": 48000,
+        "interval_km": 80000,
         "torque": "65 Nm",
         "sockets": {
-            "fill_plug": "24 mm",
-            "drain_plug": "24 mm"
+            "fill plug": "24 mm",
+            "drain plug": "24 mm"
         },
         "workflow": [
-            "Park vehicle level",
-            "Remove fill plug FIRST (24 mm)",
-            "Place drain pan",
-            "Remove drain plug",
-            "Drain completely",
-            "Install new crush washer",
+            "Remove fill plug FIRST",
+            "Drain fluid completely",
+            "Replace crush washer",
             "Reinstall drain plug",
             "Torque to 65 Nm",
-            "Fill until fluid seeps from fill hole",
+            "Fill until fluid seeps out",
             "Reinstall fill plug",
-            "Torque to 65 Nm",
-            "Clean area and inspect"
+            "Torque to 65 Nm"
         ]
     },
 
     "Transfer Case": {
         "fluid": "75W-90 GL-4/GL-5",
         "capacity": "1.0 L",
-        "interval_km": 48000,
+        "interval_km": 80000,
         "torque": "65 Nm",
         "sockets": {
-            "fill_plug": "24 mm",
-            "drain_plug": "24 mm"
+            "fill plug": "24 mm",
+            "drain plug": "24 mm"
         },
         "workflow": [
-            "Level vehicle",
             "Remove fill plug FIRST",
-            "Remove drain plug",
-            "Drain fully",
-            "Reinstall drain plug with washer",
-            "Torque to 65 Nm",
-            "Fill with 1.0 L gear oil",
+            "Drain fluid",
+            "Reinstall drain plug",
+            "Fill 1.0 L gear oil",
             "Reinstall fill plug",
             "Torque to 65 Nm"
+        ]
+    },
+
+    # 🆕 NEW: Propeller Shaft Greasing
+    "Propeller Shaft (Greasing)": {
+        "fluid": "Lithium-based NLGI #2 grease",
+        "capacity": "Grease until fresh appears at seals",
+        "interval_km": 10000,
+        "sockets": {
+            "driveshaft bolts": "14 mm",
+            "grease fittings": "Grease gun"
+        },
+        "workflow": [
+            "Lift and safely support vehicle",
+            "Locate all grease fittings",
+            "Clean grease nipples",
+            "Apply grease slowly to U-joints",
+            "Grease slip yoke (if equipped)",
+            "Stop when fresh grease appears",
+            "Rotate driveshaft for access",
+            "Wipe excess grease",
+            "Inspect boots and joints",
+            "Test drive for vibration"
         ]
     },
 
     "Brake Fluid": {
         "fluid": "DOT 3",
         "capacity": "0.8–1.0 L flush",
-        "interval_km": 48000,
+        "interval_km": 0,
         "interval_years": 2,
         "workflow": [
-            "Start at passenger rear wheel",
-            "Bleed brakes in sequence",
-            "Keep reservoir full at all times",
-            "Continue until clear fluid",
-            "Check pedal feel",
-            "Top off reservoir"
+            "Bleed brakes starting rear passenger",
+            "Keep reservoir topped up",
+            "Continue until clean fluid",
+            "Check pedal feel"
         ]
     },
 
@@ -147,14 +153,10 @@ WORKSHOP = {
         "interval_km": 160000,
         "interval_after": 80000,
         "workflow": [
-            "Ensure engine is cold",
-            "Open radiator drain",
-            "Drain coolant fully",
-            "Close drain",
-            "Refill with pre-mix SLLC",
-            "Bleed air from system",
-            "Run engine and check level",
-            "Top off reservoir"
+            "Drain coolant when cold",
+            "Refill with Toyota SLLC",
+            "Bleed air system",
+            "Check level after warm-up"
         ]
     }
 }
@@ -174,9 +176,9 @@ def save_data(data):
 data = load_data()
 
 # ------------------ UI ------------------
-st.set_page_config(page_title="4Runner Workshop Mode", layout="centered")
+st.set_page_config(page_title="4Runner Workshop OS", layout="centered")
 
-st.title("🔧 4Runner Workshop Mode")
+st.title("🔧 4Runner Workshop OS")
 
 menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop Specs", "📒 History"])
 
@@ -209,14 +211,15 @@ elif menu == "🛠 Service Mode":
 
     spec = WORKSHOP[service]
 
-    st.markdown("## 🔧 Factory Specs")
+    st.markdown("## 🔧 Specs")
     st.write(f"Fluid: {spec.get('fluid','-')}")
     st.write(f"Capacity: {spec.get('capacity','-')}")
-    st.write(f"Interval: {spec.get('interval_km','Time-based')}")
+    st.write(f"Interval: {spec.get('interval_km','Time-based')} km")
+
     if "torque" in spec:
         st.write(f"Torque: {spec['torque']}")
     if "temp" in spec:
-        st.write(f"Temp: {spec['temp']}")
+        st.write(f"Temp: {spec.get('temp','-')}")
 
     if "sockets" in spec:
         st.markdown("### 🔩 Socket Sizes")
@@ -224,7 +227,7 @@ elif menu == "🛠 Service Mode":
             st.write(f"{part}: {size}")
 
     if "workflow" in spec:
-        st.markdown("### 📋 Step-by-Step Workflow")
+        st.markdown("### 📋 Workflow")
         for i, step in enumerate(spec["workflow"], 1):
             st.write(f"{i}. {step}")
 
@@ -240,7 +243,7 @@ elif menu == "🛠 Service Mode":
         data["last_service"][service] = km
         save_data(data)
 
-        st.success("Service logged successfully")
+        st.success("Saved ✔️")
 
 # ------------------ WORKSHOP SPECS ------------------
 elif menu == "📘 Workshop Specs":
