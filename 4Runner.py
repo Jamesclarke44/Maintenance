@@ -15,7 +15,7 @@ SCHEDULE = {
     "Coolant": 160000
 }
 
-# ------------------ DATA FUNCTIONS ------------------
+# ------------------ DATA ------------------
 def load_data():
     try:
         with open(FILE, "r") as f:
@@ -27,41 +27,40 @@ def save_data(data):
     with open(FILE, "w") as f:
         json.dump(data, f, indent=4)
 
-# ------------------ UI ------------------
-st.set_page_config(page_title="4Runner Maintenance Tracker", layout="centered")
-
-st.title("🚗 4Runner Maintenance Tracker")
-
 data = load_data()
 
-menu = st.sidebar.radio("Menu", ["Dashboard", "Log Service", "Check Due", "History"])
+# ------------------ MOBILE UI SETTINGS ------------------
+st.set_page_config(page_title="4Runner Tracker", layout="centered")
 
-# ------------------ DASHBOARD ------------------
-if menu == "Dashboard":
-    st.subheader("📊 Maintenance Overview")
+st.title("🚗 4Runner Maintenance")
 
-    current_km = st.number_input("Enter current KM", min_value=0, step=100)
+menu = st.radio("", ["📊 Status", "🛠 Log", "✏️ Edit / Fix", "📒 History"])
 
-    if current_km:
-        for service, interval in SCHEDULE.items():
-            last_km = data["last_service"].get(service, 0)
-            due_km = last_km + interval
-            remaining = due_km - current_km
+# ------------------ STATUS ------------------
+if menu == "📊 Status":
+    st.subheader("Maintenance Status")
 
-            if current_km >= due_km:
-                st.error(f"⚠️ {service} is DUE (last: {last_km} km)")
-            else:
-                st.success(f"✅ {service}: {remaining} km remaining")
-
-# ------------------ LOG SERVICE ------------------
-elif menu == "Log Service":
-    st.subheader("🛠 Log Maintenance")
-
-    service = st.selectbox("Service Type", list(SCHEDULE.keys()))
     km = st.number_input("Current KM", min_value=0, step=100)
-    notes = st.text_area("Notes (fluid, parts, etc)")
 
-    if st.button("Save Service"):
+    if km:
+        for service, interval in SCHEDULE.items():
+            last = data["last_service"].get(service, 0)
+            due = last + interval
+
+            if km >= due:
+                st.error(f"⚠️ {service} DUE")
+            else:
+                st.success(f"{service}: {due - km} km left")
+
+# ------------------ LOG ------------------
+elif menu == "🛠 Log":
+    st.subheader("Add Service")
+
+    service = st.selectbox("Service", list(SCHEDULE.keys()))
+    km = st.number_input("KM", min_value=0, step=100)
+    notes = st.text_area("Notes")
+
+    if st.button("Save"):
         entry = {
             "service": service,
             "km": km,
@@ -73,33 +72,62 @@ elif menu == "Log Service":
         data["last_service"][service] = km
         save_data(data)
 
-        st.success("Service logged successfully!")
+        st.success("Saved ✔️")
 
-# ------------------ CHECK DUE ------------------
-elif menu == "Check Due":
-    st.subheader("🔧 Maintenance Status Check")
-
-    current_km = st.number_input("Current KM", min_value=0, step=100)
-
-    if st.button("Check"):
-        for service, interval in SCHEDULE.items():
-            last_km = data["last_service"].get(service, 0)
-            due_km = last_km + interval
-
-            if current_km >= due_km:
-                st.error(f"⚠️ {service} is DUE")
-            else:
-                st.info(f"{service} OK (due in {due_km - current_km} km)")
-
-# ------------------ HISTORY ------------------
-elif menu == "History":
-    st.subheader("📒 Service History")
+# ------------------ EDIT / FIX ------------------
+elif menu == "✏️ Edit / Fix":
+    st.subheader("Fix or Delete Entries")
 
     if not data["logs"]:
-        st.info("No service records yet.")
+        st.info("No logs yet.")
+    else:
+        for i, log in enumerate(data["logs"]):
+            st.markdown("---")
+
+            st.write(f"**{log['service']} @ {log['km']} km**")
+            st.write(log["notes"])
+
+            col1, col2 = st.columns(2)
+
+            # DELETE BUTTON
+            with col1:
+                if st.button(f"Delete {i}"):
+                    service = log["service"]
+
+                    data["logs"].pop(i)
+
+                    # reset last_service safely
+                    remaining = [l for l in data["logs"] if l["service"] == service]
+                    if remaining:
+                        data["last_service"][service] = max(l["km"] for l in remaining)
+                    else:
+                        data["last_service"].pop(service, None)
+
+                    save_data(data)
+                    st.rerun()
+
+            # FIX BUTTON
+            with col2:
+                new_km = st.number_input(f"Fix KM {i}", value=log["km"], step=100)
+
+                if st.button(f"Update {i}"):
+                    data["logs"][i]["km"] = new_km
+
+                    service = log["service"]
+                    data["last_service"][service] = new_km
+
+                    save_data(data)
+                    st.rerun()
+
+# ------------------ HISTORY ------------------
+elif menu == "📒 History":
+    st.subheader("Service History")
+
+    if not data["logs"]:
+        st.info("No records yet.")
     else:
         for log in reversed(data["logs"]):
             st.write(f"**{log['date']}**")
             st.write(f"{log['service']} @ {log['km']} km")
-            st.write(f"Notes: {log['notes']}")
+            st.write(log["notes"])
             st.markdown("---")
