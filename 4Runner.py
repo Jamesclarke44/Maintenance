@@ -32,7 +32,7 @@ WORKSHOP = {
     "Transmission (Drain & Fill)": {
         "fluid": "Toyota ATF WS",
         "capacity": "3.0–4.3 L",
-        "interval_km": 150000,
+        "interval_km": 80000,
         "temp": "40–45°C",
         "torque": "20 Nm (check plug)",
         "sockets": {
