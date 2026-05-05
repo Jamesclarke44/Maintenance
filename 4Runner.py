@@ -11,8 +11,8 @@ WORKSHOP = {
         "capacity": "5.7 L",
         "interval_km": 8000,
         "sockets": {
-            "drain plug": "14 mm",
-            "filter": "Toyota cartridge wrench"
+            "Drain Plug": "14 mm",
+            "Filter": "Toyota cartridge wrench"
         },
         "workflow": [
             "Warm engine slightly",
@@ -28,20 +28,20 @@ WORKSHOP = {
     },
 
     "Transmission (Drain & Fill)": {
-        "fluid": "Toyota ATF WS",
-        "capacity": "3.0–4.3 L",
-        "interval_km": 96000,
-        "temp": "40–45°C",
-        "torque": {
-            "fill_plug": "15 ft-lb",
-            "drain_plug": "29 ft-lb"
+        "Fluid": "Toyota ATF WS",
+        "Capacity": "3.0–4.3 L",
+        "Interval_km": 96000,
+        "Temp": "40–45°C",
+        "Torque": {
+            "Fill_Plug": "15 ft-lb",
+            "Drain_Plug": "29 ft-lb"
         },
-        "sockets": {
+        "Sockets": {
             "fill plug": "24 mm",
             "drain plug": "14 mm",
             "level check": "5 mm Allen"
         },
-        "workflow": [
+        "Workflow": [
             "Warm transmission to operating temp",
             "Level vehicle on flat ground",
             "Remove fill plug FIRST (24 mm)",
