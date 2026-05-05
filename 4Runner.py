@@ -21,7 +21,6 @@ WORKSHOP = {
             "Drain oil completely",
             "Replace crush washer",
             "Reinstall drain plug",
-            "Torque to 30 ft-lbs",
             "Replace oil filter",
             "Refill with 5.7 L oil",
             "Start engine and check leaks"
@@ -34,8 +33,8 @@ WORKSHOP = {
         "interval_km": 96000,
         "temp": "40–45°C",
         "torque": {
-            "fill plug": "15 ft-lbs",
-            "drain plug": "29 ft-lbs"
+            "fill_plug": "15 ft-lb",
+            "drain_plug": "29 ft-lb"
         },
         "sockets": {
             "fill plug": "24 mm",
@@ -48,11 +47,11 @@ WORKSHOP = {
             "Remove fill plug FIRST (24 mm)",
             "Drain fluid (14 mm)",
             "Reinstall drain plug",
-            "Torque to 29 ft-lbs",
-            "Fill with ATF WS",
+            "Torque drain plug to 29 ft-lb",
+            "Fill with Toyota ATF WS",
             "Check fluid at 40–45°C",
-            "Install level/fill plug",
-            "Torque to 15 ft-lbs",
+            "Install fill plug",
+            "Torque fill plug to 15 ft-lb",
             "Check for leaks"
         ]
     },
@@ -61,7 +60,10 @@ WORKSHOP = {
         "fluid": "75W-85 GL-5",
         "capacity": "1.3 L",
         "interval_km": 48000,
-        "torque": "48 ft-lbs",
+        "torque": {
+            "fill_plug": "48 ft-lb",
+            "drain_plug": "48 ft-lb"
+        },
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -70,10 +72,10 @@ WORKSHOP = {
             "Remove fill plug FIRST",
             "Drain fluid",
             "Reinstall drain plug",
-            "Torque to 48 ft-lbs",
+            "Torque drain plug to 48 ft-lb",
             "Fill until overflow",
             "Reinstall fill plug",
-            "Torque to 29 ft-lbs"
+            "Torque fill plug to 48 ft-lb"
         ]
     },
 
@@ -81,7 +83,10 @@ WORKSHOP = {
         "fluid": "75W-85 GL-5",
         "capacity": "2.7 L",
         "interval_km": 48000,
-        "torque": "48 ft-lbs",
+        "torque": {
+            "fill_plug": "48 ft-lb",
+            "drain_plug": "48 ft-lb"
+        },
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -89,20 +94,22 @@ WORKSHOP = {
         "workflow": [
             "Remove fill plug FIRST",
             "Drain fluid completely",
-            "Replace crush washer",
             "Reinstall drain plug",
-            "Torque to 48 ft-lbs",
+            "Torque drain plug to 48 ft-lb",
             "Fill until fluid seeps out",
             "Reinstall fill plug",
-            "Torque to 29 ft-lbs"
+            "Torque fill plug to 48 ft-lb"
         ]
     },
 
     "Transfer Case": {
         "fluid": "75W-90 GL-4/GL-5",
         "capacity": "1.0 L",
-        "interval_km": 48000,
-        "torque": "48 ft-lbs",
+        "interval_km": 48000,   # ✅ UPDATED
+        "torque": {
+            "fill_plug": "48 ft-lb",
+            "drain_plug": "48 ft-lb"
+        },
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -111,14 +118,13 @@ WORKSHOP = {
             "Remove fill plug FIRST",
             "Drain fluid",
             "Reinstall drain plug",
-            "Torque to 48 ft-lbs",
-            "Fill 1.0 L gear oil",
+            "Torque drain plug to 48 ft-lb",
+            "Fill with 1.0 L gear oil",
             "Reinstall fill plug",
-            "Torque to 29 ft-lbs"
+            "Torque fill plug to 48 ft-lb"
         ]
     },
 
-    # 🆕 NEW: Propeller Shaft Greasing
     "Propeller Shaft (Greasing)": {
         "fluid": "Lithium-based NLGI #2 grease",
         "capacity": "Grease until fresh appears at seals",
@@ -128,11 +134,11 @@ WORKSHOP = {
             "grease fittings": "Grease gun"
         },
         "workflow": [
-            "Lift and safely support vehicle",
+            "Lift and support vehicle safely",
             "Locate all grease fittings",
             "Clean grease nipples",
-            "Apply grease slowly to U-joints",
-            "Grease slip yoke (if equipped)",
+            "Pump grease into U-joints",
+            "Grease slip yoke if equipped",
             "Stop when fresh grease appears",
             "Rotate driveshaft for access",
             "Wipe excess grease",
@@ -147,20 +153,20 @@ WORKSHOP = {
         "interval_km": 48000,
         "interval_years": 2,
         "bleed_sequence": [
-            "Right Rear (RR)"
-            "Left Reat (LR)"
-            "Right Front (RF)"
-            "Left Frony (LF)"
+            "Right Rear (RR)",
+            "Left Rear (LR)",
+            "Right Front (RF)",
+            "Left Front (LF)"
         ],
         "workflow": [
-            "Start with Right Rear caliper",
-            "Keep master cylinder reservoir full at all times",
-            "Move to Left Rear",
-            "Then Right Front",
-            "Finish with Left Front",
-            "Continue until clear fluid at each corner",
-            "Check pedal firmness",
-            "Top off reservoir to MAX line"
+            "Start at Right Rear",
+            "Keep reservoir full",
+            "Bleed Left Rear",
+            "Bleed Right Front",
+            "Bleed Left Front",
+            "Continue until clear fluid",
+            "Check pedal feel",
+            "Top off reservoir"
         ]
     },
 
@@ -173,7 +179,7 @@ WORKSHOP = {
             "Drain coolant when cold",
             "Refill with Toyota SLLC",
             "Bleed air system",
-            "Check level after warm-up"
+            "Warm engine and recheck level"
         ]
     }
 }
@@ -233,15 +239,16 @@ elif menu == "🛠 Service Mode":
     st.write(f"Capacity: {spec.get('capacity','-')}")
     st.write(f"Interval: {spec.get('interval_km','Time-based')} km")
 
+    # 🔧 CLEAN TORQUE DISPLAY
     if "torque" in spec:
-        st.write(f"Torque: {spec['torque']}")
-    if "temp" in spec:
-        st.write(f"Temp: {spec.get('temp','-')}")
+        st.markdown("### 🔧 Torque Specs")
+        st.write(f"• Drain plug: {spec['torque']['drain_plug']}")
+        st.write(f"• Fill plug: {spec['torque']['fill_plug']}")
 
     if "sockets" in spec:
         st.markdown("### 🔩 Socket Sizes")
         for part, size in spec["sockets"].items():
-            st.write(f"{part}: {size}")
+            st.write(f"• {part}: {size}")
 
     if "workflow" in spec:
         st.markdown("### 📋 Workflow")
@@ -274,7 +281,8 @@ elif menu == "📘 Workshop Specs":
         st.write(f"Interval: {spec.get('interval_km','Time-based')} km")
 
         if "torque" in spec:
-            st.write(f"Torque: {spec['torque']}")
+            st.write(f"Drain plug: {spec['torque']['drain_plug']}")
+            st.write(f"Fill plug: {spec['torque']['fill_plug']}")
 
         if "sockets" in spec:
             st.write("🔩 Sockets:")
