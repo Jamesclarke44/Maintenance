@@ -12,7 +12,7 @@ SCHEDULE = {
     "Rear Differential": 30000,
     "Transfer Case": 30000,
     "Brake Fluid": 30000,
-    "Coolant": 160000
+    "Coolant": 100000
 }
 
 # ------------------ DATA ------------------
