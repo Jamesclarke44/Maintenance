@@ -34,8 +34,8 @@ WORKSHOP = {
         "temp": "40–45°C",
         "torque": {
             "fill_plug": "15 ft-lbs",
-            "drain_plug": "29 ft_lbs"
-        }
+            "drain_plug": "29 ft-lbs"
+        },
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "14 mm",
@@ -50,7 +50,7 @@ WORKSHOP = {
             "Torque to 29 ft-lbs",
             "Fill with ATF WS",
             "Check fluid at 40–45°C",
-            "Install level plug",
+            "Install level/fill plug",
             "Torque to 15 ft-lbs",
             "Check for leaks"
         ]
