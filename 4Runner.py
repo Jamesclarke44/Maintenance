@@ -54,7 +54,7 @@ WORKSHOP = {
     "Front Differential": {
         "fluid": "75W-85 GL-5",
         "capacity": "1.3 L",
-        "interval_km": 80000,
+        "interval_km": 48000,
         "torque": "65 Nm",
         "sockets": {
             "fill plug": "24 mm",
@@ -74,7 +74,7 @@ WORKSHOP = {
     "Rear Differential": {
         "fluid": "75W-85 GL-5",
         "capacity": "2.7 L",
-        "interval_km": 80000,
+        "interval_km": 48000,
         "torque": "65 Nm",
         "sockets": {
             "fill plug": "24 mm",
@@ -95,7 +95,7 @@ WORKSHOP = {
     "Transfer Case": {
         "fluid": "75W-90 GL-4/GL-5",
         "capacity": "1.0 L",
-        "interval_km": 80000,
+        "interval_km": 48000,
         "torque": "65 Nm",
         "sockets": {
             "fill plug": "24 mm",
