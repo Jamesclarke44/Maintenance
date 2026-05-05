@@ -137,7 +137,7 @@ WORKSHOP = {
     "Brake Fluid": {
         "fluid": "DOT 3",
         "capacity": "0.8–1.0 L flush",
-        "interval_km": 0,
+        "interval_km": 48000,
         "interval_years": 2,
         "workflow": [
             "Bleed brakes starting rear passenger",
