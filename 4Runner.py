@@ -6,6 +6,7 @@ FILE = "4runner_maintenance.json"
 
 # ------------------ WORKSHOP DATABASE ------------------
 WORKSHOP = {
+
     "Engine Oil": {
         "fluid": "0W-20 Synthetic Oil",
         "capacity": "5.7 L",
@@ -17,8 +18,8 @@ WORKSHOP = {
             "drain_plug": "crush washer (replace every service)"
         },
         "sockets": {
-            "drain plug": "14 mm",
-            "filter": "Toyota cartridge wrench"
+            "Drain Plug": "14 mm",
+            "Filter": "Toyota cartridge wrench"
         },
         "workflow": [
             "Warm engine slightly",
@@ -48,9 +49,9 @@ WORKSHOP = {
             "drain_plug": "crush washer"
         },
         "sockets": {
-            "fill plug": "24 mm",
-            "drain plug": "14 mm",
-            "level check": "5 mm Allen"
+            "Fill Plug": "24 mm",
+            "Drain Plug": "14 mm",
+            "Level Check": "5 mm Allen"
         },
         "workflow": [
             "Warm transmission to operating temp",
@@ -80,8 +81,8 @@ WORKSHOP = {
             "drain_plug": "crush washer"
         },
         "sockets": {
-            "fill plug": "24 mm",
-            "drain plug": "24 mm"
+            "Fill Plug": "24 mm",
+            "Drain Plug": "24 mm"
         },
         "workflow": [
             "Remove fill plug FIRST",
@@ -107,8 +108,8 @@ WORKSHOP = {
             "drain_plug": "crush washer"
         },
         "sockets": {
-            "fill plug": "24 mm",
-            "drain plug": "24 mm"
+            "Fill Plug": "24 mm",
+            "Drain Plug": "24 mm"
         },
         "workflow": [
             "Remove fill plug FIRST",
@@ -134,8 +135,8 @@ WORKSHOP = {
             "drain_plug": "crush washer"
         },
         "sockets": {
-            "fill plug": "24 mm",
-            "drain plug": "24 mm"
+            "Fill Plug": "24 mm",
+            "Drain Plug": "24 mm"
         },
         "workflow": [
             "Remove fill plug FIRST",
@@ -145,6 +146,64 @@ WORKSHOP = {
             "Fill with 1.0 L gear oil",
             "Reinstall fill plug",
             "Torque fill plug to 48 ft-lb"
+        ]
+    },
+
+    "Propeller Shaft (Greasing)": {
+        "fluid": "Lithium-based NLGI #2 grease",
+        "capacity": "Grease until fresh appears",
+        "interval_km": 10000,
+        "workflow": [
+            "Lift and support vehicle safely",
+            "Locate all grease fittings",
+            "Clean fittings",
+            "Pump grease into U-joints and slip yoke",
+            "Stop when fresh grease appears",
+            "Rotate driveshaft to access all fittings",
+            "Wipe excess grease",
+            "Test drive for clunking"
+        ]
+    },
+
+    "Power Steering Fluid": {
+        "fluid": "Dexron III / Toyota ATF",
+        "capacity": "Approx. 1.0 L",
+        "interval_km": 80000,
+        "workflow": [
+            "Locate reservoir",
+            "Remove old fluid with pump",
+            "Refill with fresh ATF",
+            "Turn steering lock-to-lock",
+            "Repeat until fluid is clean",
+            "Check level and top off",
+            "Inspect for leaks"
+        ]
+    },
+
+    "Brake Fluid": {
+        "fluid": "DOT 3",
+        "capacity": "0.8–1.0 L",
+        "interval_km": 48000,
+        "workflow": [
+            "Start at Right Rear",
+            "Keep reservoir full",
+            "Bleed Left Rear",
+            "Bleed Right Front",
+            "Bleed Left Front",
+            "Continue until clear fluid",
+            "Check pedal feel"
+        ]
+    },
+
+    "Coolant": {
+        "fluid": "Toyota SLLC (Pink)",
+        "capacity": "11–12 L",
+        "interval_km": 160000,
+        "workflow": [
+            "Drain coolant when cold",
+            "Refill with Toyota SLLC",
+            "Bleed system",
+            "Warm engine and recheck"
         ]
     }
 }
@@ -207,11 +266,6 @@ elif menu == "🛠 Service Mode":
         st.markdown("### 🧰 Washers")
         st.write(f"• Drain plug: {spec['washers'].get('drain_plug','-')}")
         st.write(f"• Fill plug: {spec['washers'].get('fill_plug','-')}")
-
-    if "sockets" in spec:
-        st.markdown("### 🔩 Socket Sizes")
-        for part, size in spec["sockets"].items():
-            st.write(f"• {part}: {size}")
 
     if "workflow" in spec:
         st.markdown("### 📋 Workflow")
