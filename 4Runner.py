@@ -32,7 +32,7 @@ WORKSHOP = {
         "capacity": "3.0–4.3 L",
         "interval_km": 96000,
         "temp": "40–45°C",
-        "torque": "20 Nm",
+        "torque": "15 ft-lbs",
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "14 mm",
@@ -64,10 +64,10 @@ WORKSHOP = {
             "Remove fill plug FIRST",
             "Drain fluid",
             "Reinstall drain plug",
-            "Torque to 65 Nm",
+            "Torque to 48 ft-lbs",
             "Fill until overflow",
             "Reinstall fill plug",
-            "Torque to 65 Nm"
+            "Torque to 29 ft-lbs"
         ]
     },
 
