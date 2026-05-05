@@ -1,9 +1,10 @@
+import streamlit as st
 import json
 from datetime import datetime
 
 FILE = "4runner_maintenance.json"
 
-# Default maintenance schedule (km intervals)
+# ------------------ SETTINGS ------------------
 SCHEDULE = {
     "Engine Oil": 8000,
     "Transmission (Drain & Fill)": 60000,
@@ -14,6 +15,7 @@ SCHEDULE = {
     "Coolant": 160000
 }
 
+# ------------------ DATA FUNCTIONS ------------------
 def load_data():
     try:
         with open(FILE, "r") as f:
@@ -25,70 +27,79 @@ def save_data(data):
     with open(FILE, "w") as f:
         json.dump(data, f, indent=4)
 
-def log_service():
-    data = load_data()
+# ------------------ UI ------------------
+st.set_page_config(page_title="4Runner Maintenance Tracker", layout="centered")
 
-    service = input("Service type: ")
-    km = int(input("Current KM: "))
-    notes = input("Notes (fluid, parts, etc): ")
+st.title("🚗 4Runner Maintenance Tracker")
 
-    entry = {
-        "service": service,
-        "km": km,
-        "date": str(datetime.now()),
-        "notes": notes
-    }
+data = load_data()
 
-    data["logs"].append(entry)
-    data["last_service"][service] = km
+menu = st.sidebar.radio("Menu", ["Dashboard", "Log Service", "Check Due", "History"])
 
-    save_data(data)
-    print("✅ Service logged.")
+# ------------------ DASHBOARD ------------------
+if menu == "Dashboard":
+    st.subheader("📊 Maintenance Overview")
 
-def check_due():
-    data = load_data()
-    current_km = int(input("Enter current KM: "))
+    current_km = st.number_input("Enter current KM", min_value=0, step=100)
 
-    print("\n🔧 Maintenance Status:\n")
-
-    for service, interval in SCHEDULE.items():
-        last_km = data["last_service"].get(service, 0)
-        due_km = last_km + interval
-
-        if current_km >= due_km:
-            print(f"⚠️ {service} is DUE (Last: {last_km} km)")
-        else:
+    if current_km:
+        for service, interval in SCHEDULE.items():
+            last_km = data["last_service"].get(service, 0)
+            due_km = last_km + interval
             remaining = due_km - current_km
-            print(f"✅ {service} OK ({remaining} km remaining)")
 
-def show_logs():
-    data = load_data()
-    print("\n📒 Service History:\n")
+            if current_km >= due_km:
+                st.error(f"⚠️ {service} is DUE (last: {last_km} km)")
+            else:
+                st.success(f"✅ {service}: {remaining} km remaining")
 
-    for log in data["logs"]:
-        print(f"{log['date']} | {log['service']} @ {log['km']} km")
-        print(f"   Notes: {log['notes']}\n")
+# ------------------ LOG SERVICE ------------------
+elif menu == "Log Service":
+    st.subheader("🛠 Log Maintenance")
 
-def main():
-    while True:
-        print("\n--- 4Runner Maintenance Tracker ---")
-        print("1. Log Service")
-        print("2. Check Maintenance Due")
-        print("3. Show History")
-        print("4. Exit")
+    service = st.selectbox("Service Type", list(SCHEDULE.keys()))
+    km = st.number_input("Current KM", min_value=0, step=100)
+    notes = st.text_area("Notes (fluid, parts, etc)")
 
-        choice = input("Select: ")
+    if st.button("Save Service"):
+        entry = {
+            "service": service,
+            "km": km,
+            "date": str(datetime.now()),
+            "notes": notes
+        }
 
-        if choice == "1":
-            log_service()
-        elif choice == "2":
-            check_due()
-        elif choice == "3":
-            show_logs()
-        elif choice == "4":
-            break
-        else:
-            print("Invalid option.")
+        data["logs"].append(entry)
+        data["last_service"][service] = km
+        save_data(data)
 
-if __name__ == "__main__":
-    main()
+        st.success("Service logged successfully!")
+
+# ------------------ CHECK DUE ------------------
+elif menu == "Check Due":
+    st.subheader("🔧 Maintenance Status Check")
+
+    current_km = st.number_input("Current KM", min_value=0, step=100)
+
+    if st.button("Check"):
+        for service, interval in SCHEDULE.items():
+            last_km = data["last_service"].get(service, 0)
+            due_km = last_km + interval
+
+            if current_km >= due_km:
+                st.error(f"⚠️ {service} is DUE")
+            else:
+                st.info(f"{service} OK (due in {due_km - current_km} km)")
+
+# ------------------ HISTORY ------------------
+elif menu == "History":
+    st.subheader("📒 Service History")
+
+    if not data["logs"]:
+        st.info("No service records yet.")
+    else:
+        for log in reversed(data["logs"]):
+            st.write(f"**{log['date']}**")
+            st.write(f"{log['service']} @ {log['km']} km")
+            st.write(f"Notes: {log['notes']}")
+            st.markdown("---")
