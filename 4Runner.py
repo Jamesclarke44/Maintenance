@@ -139,11 +139,21 @@ WORKSHOP = {
         "capacity": "0.8–1.0 L flush",
         "interval_km": 48000,
         "interval_years": 2,
+        "bleed_sequence": [
+            "Right Rear (RR)"
+            "Left Reat (LR)"
+            "Right Front (RF)"
+            "Left Frony (LF)"
+        ],
         "workflow": [
-            "Bleed brakes starting rear passenger",
-            "Keep reservoir topped up",
-            "Continue until clean fluid",
-            "Check pedal feel"
+            "Start with Right Rear caliper",
+            "Keep master cylinder reservoir full at all times",
+            "Move to Left Rear",
+            "Then Right Front",
+            "Finish with Left Front",
+            "Continue until clear fluid at each corner",
+            "Check pedal firmness",
+            "Top off reservoir to MAX line"
         ]
     },
 
