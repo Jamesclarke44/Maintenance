@@ -167,16 +167,33 @@ WORKSHOP = {
 
     "Power Steering Fluid": {
         "fluid": "Dexron III / Toyota ATF",
-        "capacity": "Approx. 1.0 L",
+        "capacity": "Approx. 1.0 L (exchange)",
         "interval_km": 80000,
+        "warnings": [
+            "Do NOT run pump dry (can damage pump)",
+            "Do NOT hold steering at full lock for more than 2–3 seconds",
+            "Foamy fluid indicates air in system",
+            "Always maintain fluid level during exchange"
+        ],
         "workflow": [
-            "Locate reservoir",
-            "Remove old fluid with pump",
+            "Ensure engine is OFF",
+            "Locate power steering reservoir",
+            "Clean area around cap",
+            "Remove reservoir cap",
+            "Use pump or turkey baster to remove old fluid",
             "Refill with fresh ATF",
-            "Turn steering lock-to-lock",
-            "Repeat until fluid is clean",
-            "Check level and top off",
-            "Inspect for leaks"
+            "Start engine",
+            "Turn steering wheel slowly lock-to-lock",
+            "Do NOT hold at full lock",
+            "Shut engine OFF",
+            "Repeat fluid extraction from reservoir",
+            "Refill with fresh ATF",
+            "Repeat cycle 3–5 times until fluid runs clean",
+            "Final refill to proper level",
+            "Start engine and cycle steering again",
+            "Check for foaming or noise",
+            "Inspect system for leaks",
+            "Recheck level after test drive"
         ]
     },
 
@@ -199,11 +216,37 @@ WORKSHOP = {
         "fluid": "Toyota SLLC (Pink)",
         "capacity": "11–12 L",
         "interval_km": 160000,
+        "interval_after": 80000,
+        "warnings": [
+            "Engine must be completely cold before opening radiator",
+            "Set heater to MAX HOT during bleeding",
+            "Air pockets can cause overheating"
+        ],
         "workflow": [
-            "Drain coolant when cold",
-            "Refill with Toyota SLLC",
-            "Bleed system",
-            "Warm engine and recheck"
+            "Ensure engine is completely cold",
+            "Set heater to MAX HOT",
+            "Remove radiator cap",
+            "Open radiator drain cock (petcock)",
+            "Drain coolant completely",
+            "Optional: remove engine block drains for full drain",
+            "Close radiator drain",
+            "Reinstall block drains if removed",
+            "Slowly fill radiator with Toyota SLLC",
+            "Fill overflow reservoir to FULL line",
+            "Leave radiator cap OFF",
+            "Start engine and let idle",
+            "Watch coolant level and top up as it drops",
+            "Squeeze upper radiator hose to release air",
+            "Wait for engine to reach operating temperature",
+            "Confirm thermostat opens (upper hose gets hot)",
+            "Top off coolant as needed",
+            "Continue until no more bubbles appear",
+            "Install radiator cap",
+            "Run engine for a few more minutes",
+            "Shut engine off and let fully cool",
+            "Recheck radiator and reservoir levels",
+            "Top off if needed",
+            "Inspect for leaks"
         ]
     }
 }
@@ -266,6 +309,11 @@ elif menu == "🛠 Service Mode":
         st.markdown("### 🧰 Washers")
         st.write(f"• Drain plug: {spec['washers'].get('drain_plug','-')}")
         st.write(f"• Fill plug: {spec['washers'].get('fill_plug','-')}")
+
+    if "warnings" in spec:
+        st.markdown("### ⚠️ Important Warnings")
+        for w in spec["warnings"]:
+            st.warning(w)
 
     if "workflow" in spec:
         st.markdown("### 📋 Workflow")
