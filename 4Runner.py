@@ -34,8 +34,8 @@ WORKSHOP = {
         "interval_km": 96000,
         "temp": "40–45°C",
         "torque": {
-            "fill_plug": "15 ft-lbs",
-            "drain_plug": "29 ft-lbs"
+            "fill plug": "15 ft-lbs",
+            "drain plug": "29 ft-lbs"
         },
         "sockets": {
             "fill plug": "24 mm",
