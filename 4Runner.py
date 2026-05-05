@@ -21,6 +21,7 @@ WORKSHOP = {
             "Drain oil completely",
             "Replace crush washer",
             "Reinstall drain plug",
+            "Torque to 30 ft-lbs",
             "Replace oil filter",
             "Refill with 5.7 L oil",
             "Start engine and check leaks"
