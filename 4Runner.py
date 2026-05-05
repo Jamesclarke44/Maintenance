@@ -10,9 +10,15 @@ WORKSHOP = {
         "fluid": "0W-20 Synthetic Oil",
         "capacity": "5.7 L",
         "interval_km": 8000,
+        "torque": {
+            "drain_plug": "30 ft-lb"
+        },
+        "washers": {
+            "drain_plug": "crush washer (replace every service)"
+        },
         "sockets": {
-            "Drain Plug": "14 mm",
-            "Filter": "Toyota cartridge wrench"
+            "drain plug": "14 mm",
+            "filter": "Toyota cartridge wrench"
         },
         "workflow": [
             "Warm engine slightly",
@@ -21,7 +27,7 @@ WORKSHOP = {
             "Drain oil completely",
             "Replace crush washer",
             "Reinstall drain plug",
-            "Torque drain plug to 30 ft-lbs",
+            "Torque drain plug to 30 ft-lb",
             "Replace oil filter",
             "Refill with 5.7 L oil",
             "Start engine and check leaks"
@@ -29,20 +35,24 @@ WORKSHOP = {
     },
 
     "Transmission (Drain & Fill)": {
-        "Fluid": "Toyota ATF WS",
-        "Capacity": "3.0–4.3 L",
-        "Interval_km": 96000,
-        "Temp": "40–45°C",
-        "Torque": {
-            "Fill_Plug": "15 ft-lb",
-            "Drain_Plug": "29 ft-lb"
+        "fluid": "Toyota ATF WS",
+        "capacity": "3.0–4.3 L",
+        "interval_km": 96000,
+        "temp": "40–45°C",
+        "torque": {
+            "fill_plug": "15 ft-lb",
+            "drain_plug": "29 ft-lb"
         },
-        "Sockets": {
+        "washers": {
+            "fill_plug": "crush washer",
+            "drain_plug": "crush washer"
+        },
+        "sockets": {
             "fill plug": "24 mm",
             "drain plug": "14 mm",
             "level check": "5 mm Allen"
         },
-        "Workflow": [
+        "workflow": [
             "Warm transmission to operating temp",
             "Level vehicle on flat ground",
             "Remove fill plug FIRST (24 mm)",
@@ -64,6 +74,10 @@ WORKSHOP = {
         "torque": {
             "fill_plug": "48 ft-lb",
             "drain_plug": "48 ft-lb"
+        },
+        "washers": {
+            "fill_plug": "crush washer",
+            "drain_plug": "crush washer"
         },
         "sockets": {
             "fill plug": "24 mm",
@@ -88,6 +102,10 @@ WORKSHOP = {
             "fill_plug": "48 ft-lb",
             "drain_plug": "48 ft-lb"
         },
+        "washers": {
+            "fill_plug": "crush washer",
+            "drain_plug": "crush washer"
+        },
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -106,10 +124,14 @@ WORKSHOP = {
     "Transfer Case": {
         "fluid": "75W-90 GL-4/GL-5",
         "capacity": "1.0 L",
-        "interval_km": 48000,   # ✅ UPDATED
+        "interval_km": 48000,
         "torque": {
             "fill_plug": "48 ft-lb",
             "drain_plug": "48 ft-lb"
+        },
+        "washers": {
+            "fill_plug": "crush washer",
+            "drain_plug": "crush washer"
         },
         "sockets": {
             "fill plug": "24 mm",
@@ -123,64 +145,6 @@ WORKSHOP = {
             "Fill with 1.0 L gear oil",
             "Reinstall fill plug",
             "Torque fill plug to 48 ft-lb"
-        ]
-    },
-
-    "Propeller Shaft (Greasing)": {
-        "fluid": "Lithium-based NLGI #2 grease",
-        "capacity": "Grease until fresh appears at seals",
-        "interval_km": 10000,
-        "sockets": {
-            "driveshaft bolts": "14 mm",
-            "grease fittings": "Grease gun"
-        },
-        "workflow": [
-            "Lift and support vehicle safely",
-            "Locate all grease fittings",
-            "Clean grease nipples",
-            "Pump grease into U-joints",
-            "Grease slip yoke if equipped",
-            "Stop when fresh grease appears",
-            "Rotate driveshaft for access",
-            "Wipe excess grease",
-            "Inspect boots and joints",
-            "Test drive for vibration"
-        ]
-    },
-
-    "Brake Fluid": {
-        "fluid": "DOT 3",
-        "capacity": "0.8–1.0 L flush",
-        "interval_km": 48000,
-        "interval_years": 2,
-        "bleed_sequence": [
-            "Right Rear (RR)",
-            "Left Rear (LR)",
-            "Right Front (RF)",
-            "Left Front (LF)"
-        ],
-        "workflow": [
-            "Start at Right Rear",
-            "Keep reservoir full",
-            "Bleed Left Rear",
-            "Bleed Right Front",
-            "Bleed Left Front",
-            "Continue until clear fluid",
-            "Check pedal feel",
-            "Top off reservoir"
-        ]
-    },
-
-    "Coolant": {
-        "fluid": "Toyota SLLC (Pink)",
-        "capacity": "11–12 L",
-        "interval_km": 160000,
-        "interval_after": 80000,
-        "workflow": [
-            "Drain coolant when cold",
-            "Refill with Toyota SLLC",
-            "Bleed air system",
-            "Warm engine and recheck level"
         ]
     }
 }
@@ -206,99 +170,22 @@ st.title("🔧 4Runner Workshop OS")
 
 menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop Specs", "📒 History"])
 
-# ------------------ DASHBOARD ------------------
-if menu == "📊 Dashboard":
-    st.subheader("Maintenance Status")
-
-    km = st.number_input("Current KM", min_value=0, step=100)
-
-    if km:
-        for item, spec in WORKSHOP.items():
-            interval = spec.get("interval_km", 0)
-            last = data["last_service"].get(item, 0)
-
-            if interval > 0:
-                due = last + interval
-
-                if km >= due:
-                    st.error(f"⚠️ {item} DUE")
-                else:
-                    st.success(f"{item}: {due - km} km remaining")
-
 # ------------------ SERVICE MODE ------------------
-elif menu == "🛠 Service Mode":
-    st.subheader("Step-by-Step Service")
-
+if menu == "🛠 Service Mode":
     service = st.selectbox("Select System", list(WORKSHOP.keys()))
-    km = st.number_input("Current KM", min_value=0, step=100)
-    notes = st.text_area("Notes")
-
     spec = WORKSHOP[service]
 
     st.markdown("## 🔧 Specs")
     st.write(f"Fluid: {spec.get('fluid','-')}")
     st.write(f"Capacity: {spec.get('capacity','-')}")
-    st.write(f"Interval: {spec.get('interval_km','Time-based')} km")
 
-    # 🔧 CLEAN TORQUE DISPLAY
     if "torque" in spec:
         st.markdown("### 🔧 Torque Specs")
-        st.write(f"• Drain plug: {spec['torque']['drain_plug']}")
-        st.write(f"• Fill plug: {spec['torque']['fill_plug']}")
+        st.write(f"• Drain plug: {spec['torque'].get('drain_plug','-')}")
+        st.write(f"• Fill plug: {spec['torque'].get('fill_plug','-')}")
 
-    if "sockets" in spec:
-        st.markdown("### 🔩 Socket Sizes")
-        for part, size in spec["sockets"].items():
-            st.write(f"• {part}: {size}")
-
-    if "workflow" in spec:
-        st.markdown("### 📋 Workflow")
-        for i, step in enumerate(spec["workflow"], 1):
-            st.write(f"{i}. {step}")
-
-    if st.button("✔ Save Service"):
-        entry = {
-            "service": service,
-            "km": km,
-            "date": str(datetime.now()),
-            "notes": notes
-        }
-
-        data["logs"].append(entry)
-        data["last_service"][service] = km
-        save_data(data)
-
-        st.success("Saved ✔️")
-
-# ------------------ WORKSHOP SPECS ------------------
-elif menu == "📘 Workshop Specs":
-    st.subheader("Reference Manual")
-
-    for name, spec in WORKSHOP.items():
-        st.markdown("---")
-        st.write(f"### {name}")
-        st.write(f"Fluid: {spec.get('fluid','-')}")
-        st.write(f"Capacity: {spec.get('capacity','-')}")
-        st.write(f"Interval: {spec.get('interval_km','Time-based')} km")
-
-        if "torque" in spec:
-            st.write(f"Drain plug: {spec['torque']['drain_plug']}")
-            st.write(f"Fill plug: {spec['torque']['fill_plug']}")
-
-        if "sockets" in spec:
-            st.write("🔩 Sockets:")
-            for k, v in spec["sockets"].items():
-                st.write(f"- {k}: {v}")
-
-# ------------------ HISTORY ------------------
-elif menu == "📒 History":
-    st.subheader("Service History")
-
-    if not data["logs"]:
-        st.info("No service records yet.")
-    else:
-        for log in reversed(data["logs"]):
-            st.write(f"**{log['date']}**")
-            st.write(f"{log['service']} @ {log['km']} km")
-            st.write(log["notes"])
-            st.markdown("---")
+    # 🆕 WASHERS DISPLAY
+    if "washers" in spec:
+        st.markdown("### 🧰 Washers")
+        st.write(f"• Drain plug: {spec['washers'].get('drain_plug','-')}")
+        st.write(f"• Fill plug: {spec['washers'].get('fill_plug','-')}")
