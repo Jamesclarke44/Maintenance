@@ -4,15 +4,51 @@ from datetime import datetime
 
 FILE = "4runner_maintenance.json"
 
-# ------------------ SETTINGS ------------------
-SCHEDULE = {
-    "Engine Oil": 8000,
-    "Transmission (Drain & Fill)": 60000,
-    "Front Differential": 30000,
-    "Rear Differential": 30000,
-    "Transfer Case": 30000,
-    "Brake Fluid": 30000,
-    "Coolant": 160000
+# ------------------ WORKSHOP SPEC DATABASE ------------------
+WORKSHOP = {
+    "Engine Oil": {
+        "fluid": "0W-20 Synthetic Oil",
+        "capacity": "5.7 L",
+        "interval_km": 8000,
+        "notes": "Oil + filter change"
+    },
+    "Transmission (Drain & Fill)": {
+        "fluid": "Toyota ATF WS",
+        "capacity": "3.0–4.3 L",
+        "interval_km": 150000,
+        "temp": "40–45°C",
+        "torque": "20 Nm (check plug)"
+    },
+    "Front Differential": {
+        "fluid": "75W-85 GL-5",
+        "capacity": "1.3 L",
+        "interval_km": 80000,
+        "torque": "65 Nm"
+    },
+    "Rear Differential": {
+        "fluid": "75W-85 GL-5",
+        "capacity": "2.7 L",
+        "interval_km": 80000,
+        "torque": "65 Nm"
+    },
+    "Transfer Case": {
+        "fluid": "75W-90 GL-4/GL-5",
+        "capacity": "1.0 L",
+        "interval_km": 80000,
+        "torque": "65 Nm"
+    },
+    "Brake Fluid": {
+        "fluid": "DOT 3",
+        "capacity": "0.8–1.0 L flush",
+        "interval_km": 0,
+        "interval_years": 2
+    },
+    "Coolant": {
+        "fluid": "Toyota SLLC (Pink)",
+        "capacity": "11–12 L",
+        "interval_km": 160000,
+        "interval_after": 80000
+    }
 }
 
 # ------------------ DATA ------------------
@@ -29,38 +65,52 @@ def save_data(data):
 
 data = load_data()
 
-# ------------------ MOBILE UI SETTINGS ------------------
-st.set_page_config(page_title="4Runner Tracker", layout="centered")
+# ------------------ UI ------------------
+st.set_page_config(page_title="4Runner Workshop Mode", layout="centered")
 
-st.title("🚗 4Runner Maintenance")
+st.title("🔧 4Runner Workshop Mode")
 
-menu = st.radio("", ["📊 Status", "🛠 Log", "✏️ Edit / Fix", "📒 History"])
+menu = st.radio("", ["📊 Dashboard", "🛠 Service", "📘 Workshop Specs", "📒 History"])
 
-# ------------------ STATUS ------------------
-if menu == "📊 Status":
+# ------------------ DASHBOARD ------------------
+if menu == "📊 Dashboard":
     st.subheader("Maintenance Status")
 
     km = st.number_input("Current KM", min_value=0, step=100)
 
     if km:
-        for service, interval in SCHEDULE.items():
-            last = data["last_service"].get(service, 0)
-            due = last + interval
+        for item, spec in WORKSHOP.items():
+            interval = spec.get("interval_km", 0)
+            last = data["last_service"].get(item, 0)
 
-            if km >= due:
-                st.error(f"⚠️ {service} DUE")
-            else:
-                st.success(f"{service}: {due - km} km left")
+            if interval > 0:
+                due = last + interval
 
-# ------------------ LOG ------------------
-elif menu == "🛠 Log":
-    st.subheader("Add Service")
+                if km >= due:
+                    st.error(f"⚠️ {item} DUE")
+                else:
+                    st.success(f"{item}: {due - km} km remaining")
 
-    service = st.selectbox("Service", list(SCHEDULE.keys()))
-    km = st.number_input("KM", min_value=0, step=100)
+# ------------------ SERVICE LOG ------------------
+elif menu == "🛠 Service":
+    st.subheader("Log Service")
+
+    service = st.selectbox("Select System", list(WORKSHOP.keys()))
+    km = st.number_input("Current KM", min_value=0, step=100)
     notes = st.text_area("Notes")
 
-    if st.button("Save"):
+    spec = WORKSHOP[service]
+
+    st.markdown("### 🔧 Factory Spec")
+    st.write(f"Fluid: {spec.get('fluid','-')}")
+    st.write(f"Capacity: {spec.get('capacity','-')}")
+    st.write(f"Interval: {spec.get('interval_km','Time-based')}")
+    if "torque" in spec:
+        st.write(f"Torque: {spec['torque']}")
+    if "temp" in spec:
+        st.write(f"Temp: {spec['temp']}")
+
+    if st.button("Save Service"):
         entry = {
             "service": service,
             "km": km,
@@ -72,59 +122,29 @@ elif menu == "🛠 Log":
         data["last_service"][service] = km
         save_data(data)
 
-        st.success("Saved ✔️")
+        st.success("Service logged ✔️")
 
-# ------------------ EDIT / FIX ------------------
-elif menu == "✏️ Edit / Fix":
-    st.subheader("Fix or Delete Entries")
+# ------------------ WORKSHOP SPECS ------------------
+elif menu == "📘 Workshop Specs":
+    st.subheader("Factory Specifications")
 
-    if not data["logs"]:
-        st.info("No logs yet.")
-    else:
-        for i, log in enumerate(data["logs"]):
-            st.markdown("---")
-
-            st.write(f"**{log['service']} @ {log['km']} km**")
-            st.write(log["notes"])
-
-            col1, col2 = st.columns(2)
-
-            # DELETE BUTTON
-            with col1:
-                if st.button(f"Delete {i}"):
-                    service = log["service"]
-
-                    data["logs"].pop(i)
-
-                    # reset last_service safely
-                    remaining = [l for l in data["logs"] if l["service"] == service]
-                    if remaining:
-                        data["last_service"][service] = max(l["km"] for l in remaining)
-                    else:
-                        data["last_service"].pop(service, None)
-
-                    save_data(data)
-                    st.rerun()
-
-            # FIX BUTTON
-            with col2:
-                new_km = st.number_input(f"Fix KM {i}", value=log["km"], step=100)
-
-                if st.button(f"Update {i}"):
-                    data["logs"][i]["km"] = new_km
-
-                    service = log["service"]
-                    data["last_service"][service] = new_km
-
-                    save_data(data)
-                    st.rerun()
+    for name, spec in WORKSHOP.items():
+        st.markdown("---")
+        st.write(f"### {name}")
+        st.write(f"Fluid: {spec.get('fluid','-')}")
+        st.write(f"Capacity: {spec.get('capacity','-')}")
+        st.write(f"Interval: {spec.get('interval_km','Time-based')} km")
+        if "interval_after" in spec:
+            st.write(f"After first change: {spec['interval_after']} km")
+        if "torque" in spec:
+            st.write(f"Torque: {spec['torque']}")
 
 # ------------------ HISTORY ------------------
 elif menu == "📒 History":
     st.subheader("Service History")
 
     if not data["logs"]:
-        st.info("No records yet.")
+        st.info("No service records yet.")
     else:
         for log in reversed(data["logs"]):
             st.write(f"**{log['date']}**")
