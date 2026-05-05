@@ -44,9 +44,11 @@ WORKSHOP = {
             "Remove fill plug FIRST (24 mm)",
             "Drain fluid (14 mm)",
             "Reinstall drain plug",
+            "Torque to 29 ft-lbs",
             "Fill with ATF WS",
             "Check fluid at 40–45°C",
             "Install level plug",
+            "Torque to 15 ft-lbs",
             "Check for leaks"
         ]
     },
