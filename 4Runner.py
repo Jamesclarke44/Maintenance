@@ -60,7 +60,7 @@ WORKSHOP = {
         "fluid": "75W-85 GL-5",
         "capacity": "1.3 L",
         "interval_km": 48000,
-        "torque": "65 Nm",
+        "torque": "48 ft-lbs",
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -80,7 +80,7 @@ WORKSHOP = {
         "fluid": "75W-85 GL-5",
         "capacity": "2.7 L",
         "interval_km": 48000,
-        "torque": "65 Nm",
+        "torque": "48 ft-lbs",
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -90,10 +90,10 @@ WORKSHOP = {
             "Drain fluid completely",
             "Replace crush washer",
             "Reinstall drain plug",
-            "Torque to 65 Nm",
+            "Torque to 48 ft-lbs",
             "Fill until fluid seeps out",
             "Reinstall fill plug",
-            "Torque to 65 Nm"
+            "Torque to 29 ft-lbs"
         ]
     },
 
@@ -101,7 +101,7 @@ WORKSHOP = {
         "fluid": "75W-90 GL-4/GL-5",
         "capacity": "1.0 L",
         "interval_km": 48000,
-        "torque": "65 Nm",
+        "torque": "48 ft-lbs",
         "sockets": {
             "fill plug": "24 mm",
             "drain plug": "24 mm"
@@ -110,9 +110,10 @@ WORKSHOP = {
             "Remove fill plug FIRST",
             "Drain fluid",
             "Reinstall drain plug",
+            "Torque to 48 ft-lbs",
             "Fill 1.0 L gear oil",
             "Reinstall fill plug",
-            "Torque to 65 Nm"
+            "Torque to 29 ft-lbs"
         ]
     },
 
