@@ -165,27 +165,88 @@ data = load_data()
 
 # ------------------ UI ------------------
 st.set_page_config(page_title="4Runner Workshop OS", layout="centered")
-
 st.title("🔧 4Runner Workshop OS")
 
 menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop Specs", "📒 History"])
 
+# ------------------ DASHBOARD ------------------
+if menu == "📊 Dashboard":
+    km = st.number_input("Current KM", min_value=0, step=100)
+
+    if km:
+        for item, spec in WORKSHOP.items():
+            interval = spec.get("interval_km", 0)
+            last = data["last_service"].get(item, 0)
+
+            if interval > 0:
+                due = last + interval
+                if km >= due:
+                    st.error(f"⚠️ {item} DUE")
+                else:
+                    st.success(f"{item}: {due - km} km remaining")
+
 # ------------------ SERVICE MODE ------------------
-if menu == "🛠 Service Mode":
+elif menu == "🛠 Service Mode":
     service = st.selectbox("Select System", list(WORKSHOP.keys()))
+    km = st.number_input("Current KM", min_value=0, step=100)
+    notes = st.text_area("Notes")
+
     spec = WORKSHOP[service]
 
     st.markdown("## 🔧 Specs")
     st.write(f"Fluid: {spec.get('fluid','-')}")
     st.write(f"Capacity: {spec.get('capacity','-')}")
+    st.write(f"Interval: {spec.get('interval_km','-')} km")
 
     if "torque" in spec:
         st.markdown("### 🔧 Torque Specs")
         st.write(f"• Drain plug: {spec['torque'].get('drain_plug','-')}")
         st.write(f"• Fill plug: {spec['torque'].get('fill_plug','-')}")
 
-    # 🆕 WASHERS DISPLAY
     if "washers" in spec:
         st.markdown("### 🧰 Washers")
         st.write(f"• Drain plug: {spec['washers'].get('drain_plug','-')}")
         st.write(f"• Fill plug: {spec['washers'].get('fill_plug','-')}")
+
+    if "sockets" in spec:
+        st.markdown("### 🔩 Socket Sizes")
+        for part, size in spec["sockets"].items():
+            st.write(f"• {part}: {size}")
+
+    if "workflow" in spec:
+        st.markdown("### 📋 Workflow")
+        for i, step in enumerate(spec["workflow"], 1):
+            st.write(f"{i}. {step}")
+
+    if st.button("✔ Save Service"):
+        entry = {
+            "service": service,
+            "km": km,
+            "date": str(datetime.now()),
+            "notes": notes
+        }
+
+        data["logs"].append(entry)
+        data["last_service"][service] = km
+        save_data(data)
+
+        st.success("Saved ✔️")
+
+# ------------------ WORKSHOP SPECS ------------------
+elif menu == "📘 Workshop Specs":
+    for name, spec in WORKSHOP.items():
+        st.markdown("---")
+        st.write(f"### {name}")
+        st.write(f"Fluid: {spec.get('fluid','-')}")
+        st.write(f"Capacity: {spec.get('capacity','-')}")
+
+# ------------------ HISTORY ------------------
+elif menu == "📒 History":
+    if not data["logs"]:
+        st.info("No service records yet.")
+    else:
+        for log in reversed(data["logs"]):
+            st.write(f"{log['service']} @ {log['km']} km")
+            st.write(log["date"])
+            st.write(log["notes"])
+            st.markdown("---")
