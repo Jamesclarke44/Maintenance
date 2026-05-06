@@ -347,3 +347,4 @@ elif menu == "📒 History":
             if log["notes"]:
                 st.write(f"Notes: {log['notes']}")
             st.markdown("---")
+            
