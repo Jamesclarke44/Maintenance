@@ -254,7 +254,7 @@ elif menu == "🛠 Service Mode":
         for k, v in spec["sockets"].items():
             st.write(f"- {label(k)}: {v}")
 
-    # GREASE (Prop shaft)
+    # GREASE
     if "grease_type" in spec:
         st.markdown("### 🧴 Grease")
         st.write(f"Type: {spec['grease_type']}")
@@ -283,38 +283,43 @@ elif menu == "🛠 Service Mode":
 # ------------------ WORKSHOP VIEW ------------------
 
 elif menu == "📘 Workshop":
+
+    st.markdown("## 📘 Workshop — All Services")
+
     for name, spec in WORKSHOP.items():
-        st.markdown(f"## {label(name)}")
 
-        if "fluid" in spec:
-            st.write(f"**Fluid:** {spec['fluid']}")
-        if "capacity" in spec:
-            st.write(f"**Capacity:** {spec['capacity']}")
-        if "interval_km" in spec:
-            st.write(f"**Interval:** {spec['interval_km']} km")
-        if "secondary_interval_km" in spec:
-            st.write(f"**Secondary Interval:** {spec['secondary_interval_km']} km")
+        with st.expander(label(name)):
 
-        if "torque" in spec:
-            st.write("**Torque:**")
-            for k, v in spec["torque"].items():
-                st.write(f"- {label(k)}: {v}")
+            if "fluid" in spec:
+                st.write(f"**Fluid:** {spec['fluid']}")
 
-        if "sockets" in spec:
-            st.write("**Sockets:**")
-            for k, v in spec["sockets"].items():
-                st.write(f"- {label(k)}: {v}")
+            if "capacity" in spec:
+                st.write(f"**Capacity:** {spec['capacity']}")
 
-        if "grease_type" in spec:
-            st.write(f"**Grease Type:** {spec['grease_type']}")
-            st.write(f"**Grease Amount:** {spec['grease_amount']}")
+            if "interval_km" in spec:
+                st.write(f"**Interval:** {spec['interval_km']} km")
 
-        if "workflow" in spec:
-            st.write("**Workflow:**")
-            for i, step in enumerate(spec["workflow"], 1):
-                st.write(f"{i}. {step}")
+            if "secondary_interval_km" in spec:
+                st.write(f"**Secondary Interval:** {spec['secondary_interval_km']} km")
 
-        st.markdown("---")
+            if "torque" in spec:
+                st.write("**Torque:**")
+                for k, v in spec["torque"].items():
+                    st.write(f"- {label(k)}: {v}")
+
+            if "sockets" in spec:
+                st.write("**Sockets:**")
+                for k, v in spec["sockets"].items():
+                    st.write(f"- {label(k)}: {v}")
+
+            if "grease_type" in spec:
+                st.write(f"**Grease Type:** {spec['grease_type']}")
+                st.write(f"**Grease Amount:** {spec['grease_amount']}")
+
+            if "workflow" in spec:
+                st.write("**Workflow:**")
+                for i, step in enumerate(spec["workflow"], 1):
+                    st.write(f"{i}. {step}")
 
 # ------------------ HISTORY ------------------
 
