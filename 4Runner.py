@@ -4,7 +4,7 @@ from datetime import datetime
 
 FILE = "4runner_maintenance.json"
 
-# ------------------ DATA ------------------
+# ------------------ DATA LAYER ------------------
 
 def load_data():
     try:
@@ -21,160 +21,247 @@ def save_data(data):
 
 data = load_data()
 
-# ------------------ WORKSHOP DATABASE ------------------
+# ------------------ HELPERS ------------------
+
+def label(text):
+    return text.replace("_", " ").title()
+
+def safe_get(d, key):
+    return d.get(key) if isinstance(d, dict) else None
+
+# ------------------ WORKSHOP DATABASE (STANDARDIZED) ------------------
 
 WORKSHOP = {
 
-    "Engine Oil": {
+    "engine_oil": {
         "fluid": "0W-20 Synthetic Oil",
         "capacity": "5.7 L",
         "interval_km": 8000,
-        "torque": {"drain_plug": "30 ft-lb"},
-        "washers": {"drain_plug": "crush washer"},
-        "sockets": {"Drain Plug": "14 mm"},
+
+        "torque": {
+            "drain_plug": "30 ft-lb"
+        },
+
+        "washers": {
+            "drain_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            }
+        },
+
+        "sockets": {
+            "drain_plug": "14 mm"
+        },
+
         "workflow": [
             "Warm engine",
             "Drain oil",
-            "Replace washer",
+            "Replace drain washer",
             "Torque drain plug",
             "Refill oil"
         ]
     },
 
-    "Transmission (Drain & Fill)": {
+    "transmission": {
         "fluid": "Toyota ATF WS",
         "capacity": "3.0–4.3 L",
         "interval_km": 96000,
-        "torque": {"fill_plug": "15 ft-lb", "drain_plug": "29 ft-lb"},
-        "sockets": {"Fill Plug": "24 mm", "Drain Plug": "14 mm"},
-        "washers": {"fill_plug": "crush washer", "drain_plug": "crush washer"},
+
+        "torque": {
+            "fill_plug": "15 ft-lb",
+            "drain_plug": "29 ft-lb"
+        },
+
+        "washers": {
+            "fill_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            },
+            "drain_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            }
+        },
+
+        "sockets": {
+            "fill_plug": "24 mm",
+            "drain_plug": "14 mm"
+        },
+
         "workflow": [
             "Warm transmission",
-            "Remove fill plug FIRST",
+            "Remove fill plug first",
             "Drain fluid",
             "Reinstall drain plug",
-            "Fill with ATF WS",
+            "Fill ATF WS",
             "Check temp 40–45°C",
             "Install fill plug"
         ]
     },
 
-    "Front Differential": {
+    "front_differential": {
         "fluid": "75W-85 GL-5",
         "capacity": "1.3 L",
         "interval_km": 48000,
-        "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "sockets": {"Fill": "24 mm", "Drain": "24 mm"},
-        "workflow": ["Remove fill plug", "Drain", "Fill until overflow"]
+
+        "torque": {
+            "fill_plug": "48 ft-lb",
+            "drain_plug": "48 ft-lb"
+        },
+
+        "washers": {
+            "fill_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            },
+            "drain_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            }
+        },
+
+        "sockets": {
+            "fill_plug": "24 mm",
+            "drain_plug": "24 mm"
+        },
+
+        "workflow": [
+            "Remove fill plug first",
+            "Drain fluid",
+            "Reinstall drain plug",
+            "Fill until overflow"
+        ]
     },
 
-    "Rear Differential": {
+    "rear_differential": {
         "fluid": "75W-85 GL-5",
         "capacity": "2.7 L",
         "interval_km": 48000,
-        "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "sockets": {"Fill": "24 mm", "Drain": "24 mm"},
-        "workflow": ["Remove fill plug", "Drain", "Fill until overflow"]
+
+        "torque": {
+            "fill_plug": "48 ft-lb",
+            "drain_plug": "48 ft-lb"
+        },
+
+        "washers": {
+            "fill_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            },
+            "drain_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            }
+        },
+
+        "sockets": {
+            "fill_plug": "24 mm",
+            "drain_plug": "24 mm"
+        },
+
+        "workflow": [
+            "Remove fill plug first",
+            "Drain fluid",
+            "Reinstall drain plug",
+            "Fill until overflow"
+        ]
     },
 
-    "Transfer Case": {
+    "transfer_case": {
         "fluid": "75W-90 GL-4/GL-5",
         "capacity": "1.0 L",
         "interval_km": 48000,
-        "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "sockets": {"Fill": "24 mm", "Drain": "24 mm"},
-        "workflow": ["Remove fill plug", "Drain", "Fill"]
+
+        "torque": {
+            "fill_plug": "48 ft-lb",
+            "drain_plug": "48 ft-lb"
+        },
+
+        "washers": {
+            "fill_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            },
+            "drain_plug": {
+                "type": "crush",
+                "material": "aluminum",
+                "replace": True
+            }
+        },
+
+        "sockets": {
+            "fill_plug": "24 mm",
+            "drain_plug": "24 mm"
+        },
+
+        "workflow": [
+            "Remove fill plug first",
+            "Drain fluid",
+            "Reinstall drain plug",
+            "Fill oil",
+            "Install fill plug"
+        ]
     },
 
-    "Propeller Shaft Grease": {
+    "propeller_shaft": {
         "interval_km": 10000,
         "sockets": {"bolts": "14 mm"},
-        "workflow": ["Grease U-joints", "Grease slip yoke"]
+        "workflow": [
+            "Grease U-joints",
+            "Grease slip yoke"
+        ]
     },
 
-    "Power Steering Fluid": {
+    "power_steering": {
         "interval_km": 80000,
-        "workflow": ["Drain reservoir", "Refill ATF", "Cycle steering"]
+        "workflow": [
+            "Drain reservoir",
+            "Refill ATF",
+            "Cycle steering lock to lock"
+        ]
     },
 
-    "Brake Fluid": {
+    "brake_fluid": {
         "interval_km": 48000,
         "workflow": ["RR → LR → RF → LF bleed sequence"]
     },
 
-    "Coolant": {
+    "coolant": {
         "interval_km": 160000,
-        "workflow": ["Drain cold", "Refill", "Bleed air system"]
+        "workflow": [
+            "Drain cold engine",
+            "Refill coolant",
+            "Bleed air system"
+        ]
     },
 
-    "Cabin Air Filter": {
+    "cabin_air_filter": {
         "interval_km": 24000,
         "workflow": ["Drop glove box", "Replace filter"]
     },
 
-    "Engine Air Filter": {
+    "engine_air_filter": {
         "interval_km": 24000,
         "workflow": ["Open air box", "Replace filter"]
     },
 
-    "MAF Sensor Cleaning": {
+    "maf_sensor": {
         "interval_km": 30000,
-        "workflow": ["Remove sensor", "Clean MAF spray", "Dry", "Reinstall"]
+        "workflow": ["Remove sensor", "Clean with MAF spray", "Dry", "Reinstall"]
     },
 
-    "Throttle Body Cleaning": {
+    "throttle_body": {
         "interval_km": 40000,
         "workflow": ["Remove intake hose", "Clean plate", "Reinstall"]
     }
-}
-
-# ------------------ INTELLIGENCE ------------------
-
-def get_overdue_score(service, km):
-    spec = WORKSHOP.get(service)
-    if not spec:
-        return 0
-
-    interval = spec.get("interval_km")
-    if not interval:
-        return 0
-
-    last = data["last_service"].get(service)
-
-    if last is None:
-        return 100
-
-    overdue = km - (last + interval)
-
-    if overdue <= 0:
-        return 0
-
-    return min(100, int((overdue / interval) * 100))
-
-
-def get_risk(score):
-    if score == 0:
-        return "OK"
-    elif score < 30:
-        return "LOW"
-    elif score < 70:
-        return "MEDIUM"
-    return "HIGH"
-
-
-DEPENDENCIES = {
-    "MAF Sensor Cleaning": ["Throttle Body Cleaning", "Engine Air Filter"],
-    "Engine Air Filter": ["MAF Sensor Cleaning"],
-    "Throttle Body Cleaning": ["MAF Sensor Cleaning"],
-    "Transmission (Drain & Fill)": ["Slow Acceleration"]
-}
-
-DIAGNOSTICS = {
-    "Rough Idle": ["Throttle Body Cleaning", "MAF Sensor Cleaning", "Engine Air Filter"],
-    "Poor Fuel Economy": ["MAF Sensor Cleaning", "Engine Air Filter"],
-    "Clunk / Vibration": ["Propeller Shaft Grease", "Front Differential", "Rear Differential"],
-    "Slow Acceleration": ["Transmission (Drain & Fill)", "MAF Sensor Cleaning"],
-    "Overheating": ["Coolant"]
 }
 
 # ------------------ UI ------------------
@@ -182,7 +269,7 @@ DIAGNOSTICS = {
 st.set_page_config(page_title="4Runner Workshop OS", layout="centered")
 st.title("🔧 4Runner Workshop OS")
 
-menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop", "🧠 Diagnostics", "📒 History"])
+menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop", "📒 History"])
 
 # ------------------ DASHBOARD ------------------
 
@@ -190,21 +277,21 @@ if menu == "📊 Dashboard":
     km = st.number_input("Current KM", 0)
 
     if km:
-        for item, spec in WORKSHOP.items():
+        for name, spec in WORKSHOP.items():
             interval = spec.get("interval_km")
-            last = data["last_service"].get(item)
+            last = data["last_service"].get(name)
 
             if interval:
                 if last is None:
-                    st.warning(f"⚠️ {item}: NEVER SERVICED")
+                    st.warning(f"⚠️ {label(name)} never serviced")
                 else:
                     due = last + interval
                     if km >= due:
-                        st.error(f"⚠️ {item} DUE")
+                        st.error(f"⚠️ {label(name)} DUE")
                     else:
-                        st.success(f"{item}: {due - km} km remaining")
+                        st.success(f"{label(name)}: {due - km} km remaining")
 
-# ------------------ SERVICE MODE (FIXED) ------------------
+# ------------------ SERVICE MODE ------------------
 
 elif menu == "🛠 Service Mode":
 
@@ -214,51 +301,45 @@ elif menu == "🛠 Service Mode":
 
     spec = WORKSHOP[service]
 
-    st.markdown(f"# 🔧 {service}")
+    st.markdown(f"# 🔧 {label(service)}")
 
-    col1, col2 = st.columns(2)
+    st.write("### Fluid")
+    st.write(spec.get("fluid", "—"))
 
-    with col1:
-        st.write("🛢 Fluid")
-        st.write(spec.get("fluid", "—"))
+    st.write("### Capacity")
+    st.write(spec.get("capacity", "—"))
 
-    with col2:
-        st.write("📦 Capacity")
-        st.write(spec.get("capacity", "—"))
-
-    st.write(f"📅 Interval: {spec.get('interval_km', '—')} km")
+    st.write("### Interval")
+    st.write(spec.get("interval_km", "—"))
 
     st.markdown("---")
 
-    # QUICK SPECS
-    if "sockets" in spec:
-        st.markdown("### 🔩 Sockets")
-        for k, v in spec["sockets"].items():
-            st.write(f"- {k}: {v}")
-
+    # TORQUE
     if "torque" in spec:
-        st.markdown("### 🔧 Torque")
+        st.markdown("## 🔧 Torque")
         for k, v in spec["torque"].items():
-            st.write(f"- {k}: {v}")
+            st.write(f"- {label(k)}: {v}")
 
+    # SOCKETS
+    if "sockets" in spec:
+        st.markdown("## 🔩 Sockets")
+        for k, v in spec["sockets"].items():
+            st.write(f"- {label(k)}: {v}")
+
+    # WASHERS (STRUCTURED)
     if "washers" in spec:
-        st.markdown("### 🧰 Washers")
+        st.markdown("## 🧰 Washers")
         for k, v in spec["washers"].items():
-            st.write(f"- {k}: {v}")
+            st.write(f"- {label(k)}: {v['type']} ({v['material']}) → Replace: {v['replace']}")
 
-    st.markdown("---")
-
-    # WORKFLOW CHECKLIST
+    # WORKFLOW
     st.markdown("## 📋 Workflow")
-
     completed = []
 
     for i, step in enumerate(spec.get("workflow", []), 1):
         done = st.checkbox(f"{i}. {step}", key=f"{service}_{i}")
         if done:
             completed.append(step)
-
-    st.markdown("---")
 
     if st.button("✔ Save Service"):
 
@@ -275,51 +356,12 @@ elif menu == "🛠 Service Mode":
 
         st.success("Saved ✔")
 
-# ------------------ WORKSHOP ------------------
+# ------------------ WORKSHOP VIEW ------------------
 
 elif menu == "📘 Workshop":
-    st.subheader("🔧 Workshop Reference")
-
     for name, spec in WORKSHOP.items():
-        st.markdown(f"## {name}")
-
-        if "fluid" in spec:
-            st.write(f"Fluid: {spec['fluid']}")
-
-        if "capacity" in spec:
-            st.write(f"Capacity: {spec['capacity']}")
-
-        if "interval_km" in spec:
-            st.write(f"Interval: {spec['interval_km']} km")
-
-        if "workflow" in spec:
-            st.markdown("Workflow:")
-            for i, step in enumerate(spec["workflow"], 1):
-                st.write(f"{i}. {step}")
-
-        st.markdown("---")
-
-# ------------------ DIAGNOSTICS ------------------
-
-elif menu == "🧠 Diagnostics":
-
-    symptom = st.selectbox("Select Symptom", list(DIAGNOSTICS.keys()))
-    km = st.number_input("Current KM", 0)
-
-    for item in DIAGNOSTICS[symptom]:
-
-        score = get_overdue_score(item, km)
-        risk = get_risk(score)
-
-        st.write(f"**{item}**")
-        st.write(f"Risk: {risk}")
-        st.write(f"Score: {score}/100")
-
-        if item in DEPENDENCIES:
-            st.write("Related:")
-            for d in DEPENDENCIES[item]:
-                st.write(f"• {d}")
-
+        st.markdown(f"## {label(name)}")
+        st.write(spec.get("workflow", []))
         st.markdown("---")
 
 # ------------------ HISTORY ------------------
