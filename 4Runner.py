@@ -59,12 +59,16 @@ def get_next_due_status(km_now, name, spec, last_km):
         "remaining": remaining
     }
 
-# ------------------ WORKSHOP DATABASE ------------------
+# ------------------ WORKSHOP DATABASE (CATEGORIZED) ------------------
 
 WORKSHOP = {
 
-    # ENGINE OIL
+    # ============================================================
+    # FLUIDS & DRIVETRAIN
+    # ============================================================
+
     "engine_oil": {
+        "category": "Fluids & Drivetrain",
         "fluid": "0W-20 Full Synthetic",
         "capacity": "5.7 L",
         "interval_km": 8000,
@@ -75,8 +79,7 @@ WORKSHOP = {
             "Ratchet",
             "Torque wrench (10–80 ft-lb)",
             "Oil drain pan",
-            "Funnel",
-            "Jack and stands (if needed)"
+            "Funnel"
         ],
         "workflow": [
             "Warm engine",
@@ -88,8 +91,8 @@ WORKSHOP = {
         ]
     },
 
-    # FRONT DIFFERENTIAL
     "front_differential": {
+        "category": "Fluids & Drivetrain",
         "fluid": "75W-90 GL-5",
         "capacity": "1.3 L",
         "interval_km": 48000,
@@ -100,8 +103,7 @@ WORKSHOP = {
             "Ratchet",
             "Torque wrench (10–100 ft-lb)",
             "Fluid pump",
-            "Drain pan",
-            "Breaker bar (optional)"
+            "Drain pan"
         ],
         "workflow": [
             "Remove fill plug first",
@@ -113,8 +115,8 @@ WORKSHOP = {
         ]
     },
 
-    # REAR DIFFERENTIAL
     "rear_differential": {
+        "category": "Fluids & Drivetrain",
         "fluid": "75W-90 GL-5",
         "capacity": "2.7 L",
         "interval_km": 48000,
@@ -125,8 +127,7 @@ WORKSHOP = {
             "Ratchet",
             "Torque wrench (10–100 ft-lb)",
             "Fluid pump",
-            "Drain pan",
-            "Breaker bar (optional)"
+            "Drain pan"
         ],
         "workflow": [
             "Remove fill plug first",
@@ -138,8 +139,8 @@ WORKSHOP = {
         ]
     },
 
-    # TRANSFER CASE
     "transfer_case": {
+        "category": "Fluids & Drivetrain",
         "fluid": "75W-90 GL-5 (Toyota LF 75W equivalent)",
         "capacity": "1.0 L",
         "interval_km": 48000,
@@ -162,8 +163,8 @@ WORKSHOP = {
         ]
     },
 
-    # TRANSMISSION (A750F)
     "transmission": {
+        "category": "Fluids & Drivetrain",
         "fluid": "Toyota ATF WS",
         "capacity": "3.0–4.3 L per drain",
         "interval_km": 96000,
@@ -172,11 +173,9 @@ WORKSHOP = {
         "tools": [
             "24 mm socket",
             "14 mm socket",
-            "Ratchet",
-            "Torque wrench (10–80 ft-lb)",
+            "Torque wrench",
             "ATF fill pump",
-            "Scan tool or temp monitoring",
-            "Drain pan"
+            "Scan tool or temp monitoring"
         ],
         "workflow": [
             "Warm transmission to ~40°C",
@@ -190,50 +189,31 @@ WORKSHOP = {
         ]
     },
 
-    # PROPELLER SHAFT
-    "propeller_shaft": {
-        "interval_km": 12000,
-        "grease_type": "NLGI #2 Lithium EP Moly Grease",
-        "grease_amount": "1–3 pumps per zerk (stop when boot swells)",
-        "tools": [
-            "Grease gun",
-            "Moly grease cartridges",
-            "Creeper (optional)"
-        ],
-        "workflow": [
-            "Grease front U-joints",
-            "Grease rear U-joints",
-            "Grease front slip yoke",
-            "Grease rear slip yoke"
-        ]
-    },
-
-    # BRAKE FLUID
     "brake_fluid": {
+        "category": "Fluids & Drivetrain",
         "interval_km": 48000,
         "fluid": "DOT 3 or DOT 4",
-        "capacity": "Approx. 1 L for full flush",
+        "capacity": "Approx. 1 L",
         "tools": [
-            "Brake bleeder (manual or power)",
+            "Brake bleeder",
             "8/10 mm line wrench",
-            "Catch bottle",
-            "Turkey baster or syringe"
+            "Catch bottle"
         ],
         "workflow": [
             "Bleed sequence: RR → LR → RF → LF"
         ]
     },
 
-    # COOLANT
     "coolant": {
+        "category": "Fluids & Drivetrain",
         "interval_km": 160000,
         "secondary_interval_km": 80000,
         "fluid": "Toyota Super Long Life Coolant (Pink)",
-        "capacity": "Approx. 11.4 L total system",
+        "capacity": "Approx. 11.4 L",
         "tools": [
             "Drain pan",
             "Funnel",
-            "Coolant spill-free funnel (optional)"
+            "Spill-free funnel"
         ],
         "workflow": [
             "Drain cold engine",
@@ -243,46 +223,329 @@ WORKSHOP = {
         ]
     },
 
-    # CABIN AIR FILTER
-    "cabin_air_filter": {
-        "interval_km": 16000,
+    "propeller_shaft": {
+        "category": "Fluids & Drivetrain",
+        "interval_km": 12000,
+        "grease_type": "NLGI #2 Lithium EP Moly Grease",
+        "grease_amount": "1–3 pumps per zerk",
         "tools": [
-            "None (hands only)"
+            "Grease gun",
+            "Moly grease cartridges"
         ],
-        "workflow": ["Drop glove box", "Replace filter"]
+        "workflow": [
+            "Grease front U-joints",
+            "Grease rear U-joints",
+            "Grease front slip yoke",
+            "Grease rear slip yoke"
+        ]
     },
 
-    # ENGINE AIR FILTER
+    # ============================================================
+    # FILTERS & AIR SYSTEM
+    # ============================================================
+
     "engine_air_filter": {
+        "category": "Filters & Air System",
         "interval_km": 24000,
-        "tools": [
-            "None (hands only)"
-        ],
+        "tools": ["None"],
         "workflow": ["Open air box", "Replace filter"]
     },
 
-    # MAF SENSOR
-    "MAF_sensor": {
-        "interval_km": 30000,
-        "tools": [
-            "Screwdriver",
-            "MAF cleaner spray"
-        ],
-        "workflow": ["Remove sensor", "Spray MAF cleaner", "Dry fully", "Reinstall"]
+    "cabin_air_filter": {
+        "category": "Filters & Air System",
+        "interval_km": 16000,
+        "tools": ["None"],
+        "workflow": ["Drop glove box", "Replace filter"]
     },
 
-    # THROTTLE BODY
+    "MAF_sensor": {
+        "category": "Filters & Air System",
+        "interval_km": 30000,
+        "tools": ["Screwdriver", "MAF cleaner"],
+        "workflow": [
+            "Remove sensor",
+            "Spray MAF cleaner",
+            "Dry fully",
+            "Reinstall"
+        ]
+    },
+
     "throttle_body": {
+        "category": "Filters & Air System",
         "interval_km": 40000,
+        "tools": ["Screwdriver", "Throttle body cleaner"],
+        "workflow": [
+            "Remove intake hose",
+            "Clean throttle plate",
+            "Reinstall"
+        ]
+    },
+
+    # ============================================================
+    # IGNITION
+    # ============================================================
+
+    "spark_plugs": {
+        "category": "Ignition",
+        "interval_km": 192000,
         "tools": [
-            "Screwdriver",
-            "Throttle body cleaner",
-            "Shop towels"
+            "10 mm socket",
+            "14 mm spark plug socket",
+            "Extensions",
+            "Torque wrench"
         ],
-        "workflow": ["Remove intake hose", "Clean throttle plate", "Reinstall"]
+        "torque": {"spark_plug": "15 ft-lb"},
+        "workflow": [
+            "Remove intake tube",
+            "Disconnect coil connectors",
+            "Remove coils",
+            "Remove spark plugs",
+            "Install new plugs (15 ft-lb)",
+            "Reinstall coils and intake"
+        ]
+    },
+
+    # ============================================================
+    # BELTS
+    # ============================================================
+
+    "serpentine_belt": {
+        "category": "Belts",
+        "interval_km": 160000,
+        "tools": [
+            "14 mm wrench",
+            "Breaker bar",
+            "Belt routing diagram"
+        ],
+        "workflow": [
+            "Release tensioner",
+            "Remove belt",
+            "Route new belt",
+            "Apply tension"
+        ]
+    },
+
+    # ============================================================
+    # BRAKES
+    # ============================================================
+
+    "front_brake_pads": {
+        "category": "Brakes",
+        "interval_km": 50000,
+        "tools": [
+            "14 mm socket",
+            "C-clamp",
+            "Brake cleaner"
+        ],
+        "torque": {"caliper_bolts": "91 ft-lb"},
+        "workflow": [
+            "Remove caliper",
+            "Compress piston",
+            "Install new pads",
+            "Torque caliper bolts to 91 ft-lb"
+        ]
+    },
+
+    "rear_brake_pads": {
+        "category": "Brakes",
+        "interval_km": 50000,
+        "tools": [
+            "14 mm socket",
+            "C-clamp",
+            "Brake cleaner"
+        ],
+        "torque": {"caliper_bolts": "65 ft-lb"},
+        "workflow": [
+            "Remove caliper",
+            "Compress piston",
+            "Install new pads",
+            "Torque caliper bolts to 65 ft-lb"
+        ]
+    },
+
+    "rotor_thickness": {
+        "category": "Brakes",
+        "interval_km": 50000,
+        "tools": ["Micrometer"],
+        "workflow": [
+            "Measure rotor thickness",
+            "Compare to minimum spec"
+        ]
+    },
+
+    # ============================================================
+    # TIRES & WHEELS
+    # ============================================================
+
+    "tire_rotation": {
+        "category": "Tires & Wheels",
+        "interval_km": 8000,
+        "tools": ["Jack", "Jack stands", "21 mm socket"],
+        "workflow": [
+            "Lift vehicle",
+            "Rotate tires in cross pattern",
+            "Check tread depth"
+        ]
+    },
+
+    "lug_nut_torque": {
+        "category": "Tires & Wheels",
+        "interval_km": 8000,
+        "torque": {"lug_nuts": "83 ft-lb"},
+        "tools": ["21 mm socket", "Torque wrench"],
+        "workflow": [
+            "Torque lug nuts to 83 ft-lb"
+        ]
+    },
+
+    "tread_depth": {
+        "category": "Tires & Wheels",
+        "interval_km": 8000,
+        "tools": ["Tread depth gauge"],
+        "workflow": [
+            "Measure tread depth at 3 points per tire"
+        ]
+    },
+
+    # ============================================================
+    # ENGINE COMPONENTS
+    # ============================================================
+
+    "PCV_valve": {
+        "category": "Engine Components",
+        "interval_km": 96000,
+        "tools": ["Pliers", "Replacement PCV valve"],
+        "workflow": [
+            "Remove PCV hose",
+            "Unscrew PCV valve",
+            "Install new valve"
+        ]
+    },
+
+    "battery_service": {
+        "category": "Engine Components",
+        "interval_km": 24000,
+        "tools": ["Battery brush", "Dielectric grease"],
+        "workflow": [
+            "Clean terminals",
+            "Apply dielectric grease",
+            "Check voltage"
+        ]
+    },
+
+    "fuel_system_cleaner": {
+        "category": "Engine Components",
+        "interval_km": 16000,
+        "tools": ["Fuel system cleaner bottle"],
+        "workflow": [
+            "Pour cleaner into fuel tank"
+        ]
+    },
+
+    "radiator_cap": {
+        "category": "Engine Components",
+        "interval_km": 80000,
+        "tools": ["None"],
+        "workflow": [
+            "Inspect cap seal",
+            "Replace if cracked or hardened"
+        ]
+    },
+
+    "coolant_hoses": {
+        "category": "Engine Components",
+        "interval_km": 80000,
+        "tools": ["Pliers", "Hose clamp tool"],
+        "workflow": [
+            "Inspect hoses for cracks",
+            "Replace if swollen or leaking"
+        ]
+    },
+
+    # ============================================================
+    # SUSPENSION & STEERING
+    # ============================================================
+
+    "suspension_grease_points": {
+        "category": "Suspension & Steering",
+        "interval_km": 24000,
+        "tools": ["Grease gun"],
+        "workflow": [
+            "Grease upper control arm bushings",
+            "Grease lower control arm bushings"
+        ]
+    },
+
+    "wheel_bearings": {
+        "category": "Suspension & Steering",
+        "interval_km": 96000,
+        "tools": ["Pry bar", "Dial indicator"],
+        "workflow": [
+            "Check for play",
+            "Replace if excessive movement"
+        ]
+    },
+
+    "alignment_check": {
+        "category": "Suspension & Steering",
+        "interval_km": 24000,
+        "tools": ["Alignment rack"],
+        "workflow": [
+            "Check toe, camber, caster",
+            "Adjust if out of spec"
+        ]
+    },
+
+    "power_steering_inspection": {
+        "category": "Suspension & Steering",
+        "interval_km": 24000,
+        "tools": ["None"],
+        "workflow": [
+            "Inspect electric steering components",
+            "Check for noises or binding"
+        ]
+    },
+
+    # ============================================================
+    # BREATHERS
+    # ============================================================
+
+    "diff_breather": {
+        "category": "Breathers",
+        "interval_km": 48000,
+        "tools": ["Wrench"],
+        "workflow": [
+            "Inspect breather",
+            "Ensure it moves freely",
+            "Replace if clogged"
+        ]
+    },
+
+    "transfer_case_breather": {
+        "category": "Breathers",
+        "interval_km": 48000,
+        "tools": ["Wrench"],
+        "workflow": [
+            "Inspect breather",
+            "Replace if stuck"
+        ]
+    },
+
+    # ============================================================
+    # EXTERIOR
+    # ============================================================
+
+    "wiper_blades": {
+        "category": "Exterior",
+        "interval_km": 12000,
+        "tools": ["None"],
+        "workflow": [
+            "Lift wiper arm",
+            "Remove old blade",
+            "Install new blade"
+        ]
     }
 }
-
 # ------------------ PARTS DATABASE ------------------
 
 PARTS = {
@@ -303,6 +566,7 @@ PARTS = {
             "notes": "Charcoal optional"
         }
     },
+
     "washers": {
         "engine_oil_drain": {
             "label": "Engine Oil Drain Plug Washer",
@@ -330,6 +594,7 @@ PARTS = {
             "notes": "Same as engine oil"
         }
     },
+
     "fluids": {
         "engine_oil": {
             "label": "Engine Oil",
@@ -364,7 +629,7 @@ PARTS = {
         "brake_fluid": {
             "label": "Brake Fluid",
             "spec": "DOT 3 or DOT 4",
-            "capacity": "Approx. 1 L for full flush"
+            "capacity": "Approx. 1 L"
         },
         "prop_shaft_grease": {
             "label": "Propeller Shaft Grease",
@@ -462,15 +727,15 @@ if menu == "📊 Dashboard":
                     else:
                         remaining = due - km
                         st.info(f"{label(name)}: {remaining} km remaining (due at {due} km)")
-
 # ------------------ SERVICE MODE ------------------
 
 elif menu == "🛠 Service Mode":
 
     st.subheader("🛠 Service Mode")
 
-    display_map = {label(k): k for k in WORKSHOP.keys()}
-    service_display = st.selectbox("Select Service", list(display_map.keys()))
+    # Build dropdown with category labels
+    display_map = {f"{spec['category']} — {label(k)}": k for k, spec in WORKSHOP.items()}
+    service_display = st.selectbox("Select Service", sorted(display_map.keys()))
     service = display_map[service_display]
 
     km = st.number_input("Current KM", 0, step=100)
@@ -479,6 +744,9 @@ elif menu == "🛠 Service Mode":
     spec = WORKSHOP[service]
 
     st.markdown(f"## 🔧 {label(service)}")
+
+    # CATEGORY
+    st.write(f"**Category:** {spec['category']}")
 
     # FLUID
     if "fluid" in spec:
@@ -490,12 +758,14 @@ elif menu == "🛠 Service Mode":
         st.write("### Capacity")
         st.write(spec["capacity"])
 
-    # INTERVAL
-    st.write("### Interval (Primary)")
-    st.write(spec.get("interval_km", "—"))
+    # INTERVALS
+    if "interval_km" in spec:
+        st.write("### Interval (Primary)")
+        st.write(f"{spec['interval_km']} km")
+
     if "secondary_interval_km" in spec:
         st.write("### Interval (Secondary)")
-        st.write(spec["secondary_interval_km"])
+        st.write(f"{spec['secondary_interval_km']} km")
 
     st.markdown("---")
 
@@ -507,13 +777,13 @@ elif menu == "🛠 Service Mode":
 
     # TORQUE
     if "torque" in spec:
-        st.markdown("### 🔧 Torque")
+        st.markdown("### 🔧 Torque Specs")
         for k, v in spec["torque"].items():
             st.write(f"- {label(k)}: {v}")
 
     # SOCKETS
     if "sockets" in spec:
-        st.markdown("### 🔩 Sockets")
+        st.markdown("### 🔩 Socket Sizes")
         for k, v in spec["sockets"].items():
             st.write(f"- {label(k)}: {v}")
 
@@ -532,6 +802,7 @@ elif menu == "🛠 Service Mode":
     else:
         st.write("— No workflow defined —")
 
+    # SAVE BUTTON
     if st.button("✔ Save Service"):
         data["logs"].append({
             "service": service,
@@ -543,50 +814,62 @@ elif menu == "🛠 Service Mode":
         save_data(data)
         st.success("Saved ✔")
 
-# ------------------ WORKSHOP VIEW ------------------
+# ------------------ WORKSHOP VIEW (CATEGORIZED) ------------------
 
 elif menu == "📘 Workshop":
 
-    st.markdown("## 📘 Workshop — All Services")
+    st.markdown("## 📘 Workshop — All Services (Categorized)")
 
+    # Build category groups
+    categories = {}
     for name, spec in WORKSHOP.items():
-        with st.expander(label(name)):
+        cat = spec["category"]
+        if cat not in categories:
+            categories[cat] = []
+        categories[cat].append((name, spec))
 
-            if "fluid" in spec:
-                st.write(f"**Fluid:** {spec['fluid']}")
+    # Display categories
+    for category, items in categories.items():
+        st.markdown(f"## 🗂 {category}")
 
-            if "capacity" in spec:
-                st.write(f"**Capacity:** {spec['capacity']}")
+        for name, spec in items:
+            with st.expander(label(name)):
 
-            if "interval_km" in spec:
-                st.write(f"**Interval:** {spec['interval_km']} km")
+                if "fluid" in spec:
+                    st.write(f"**Fluid:** {spec['fluid']}")
 
-            if "secondary_interval_km" in spec:
-                st.write(f"**Secondary Interval:** {spec['secondary_interval_km']} km")
+                if "capacity" in spec:
+                    st.write(f"**Capacity:** {spec['capacity']}")
 
-            if "torque" in spec:
-                st.write("**Torque:**")
-                for k, v in spec["torque"].items():
-                    st.write(f"- {label(k)}: {v}")
+                if "interval_km" in spec:
+                    st.write(f"**Interval:** {spec['interval_km']} km")
 
-            if "sockets" in spec:
-                st.write("**Sockets:**")
-                for k, v in spec["sockets"].items():
-                    st.write(f"- {label(k)}: {v}")
+                if "secondary_interval_km" in spec:
+                    st.write(f"**Secondary Interval:** {spec['secondary_interval_km']} km")
 
-            if "grease_type" in spec:
-                st.write(f"**Grease Type:** {spec['grease_type']}")
-                st.write(f"**Grease Amount:** {spec['grease_amount']}")
+                if "torque" in spec:
+                    st.write("**Torque Specs:**")
+                    for k, v in spec["torque"].items():
+                        st.write(f"- {label(k)}: {v}")
 
-            if "tools" in spec:
-                st.write("**Tools Needed:**")
-                for t in spec["tools"]:
-                    st.write(f"- {t}")
+                if "sockets" in spec:
+                    st.write("**Socket Sizes:**")
+                    for k, v in spec["sockets"].items():
+                        st.write(f"- {label(k)}: {v}")
 
-            if "workflow" in spec:
-                st.write("**Workflow:**")
-                for i, step in enumerate(spec["workflow"], 1):
-                    st.write(f"{i}. {step}")
+                if "grease_type" in spec:
+                    st.write(f"**Grease Type:** {spec['grease_type']}")
+                    st.write(f"**Grease Amount:** {spec['grease_amount']}")
+
+                if "tools" in spec:
+                    st.write("**Tools Needed:**")
+                    for t in spec["tools"]:
+                        st.write(f"- {t}")
+
+                if "workflow" in spec:
+                    st.write("**Workflow:**")
+                    for i, step in enumerate(spec["workflow"], 1):
+                        st.write(f"{i}. {step}")
 
 # ------------------ TORQUE LOOKUP ------------------
 
@@ -594,7 +877,7 @@ elif menu == "🔧 Torque Lookup":
 
     st.subheader("🔧 Torque & Socket Lookup")
 
-    query = st.text_input("Search (e.g., 'drain', 'front diff', 'transmission fill')")
+    query = st.text_input("Search (e.g., 'drain', 'front diff', 'caliper bolts', 'spark plug')")
 
     if query:
         q = query.lower()
@@ -609,21 +892,22 @@ elif menu == "🔧 Torque Lookup":
                             "service": label(name),
                             "item": label(k),
                             "torque": v,
-                            "socket": spec.get("sockets", {}).get(k, "—")
+                            "socket": spec.get("sockets", {}).get(k, "—"),
+                            "category": spec["category"]
                         })
 
         if results:
             for r in results:
                 st.markdown(f"### {r['service']} — {r['item']}")
-                st.write(f"Torque: {r['torque']}")
-                st.write(f"Socket: {r['socket']}")
+                st.write(f"**Category:** {r['category']}")
+                st.write(f"**Torque:** {r['torque']}")
+                st.write(f"**Socket:** {r['socket']}")
                 st.markdown("---")
         else:
             st.info("No matching torque entries found.")
     else:
         st.info("Type a keyword to search torque and socket specs.")
-
-# ------------------ PARTS DATABASE ------------------
+# ------------------ PARTS DATABASE UI ------------------
 
 elif menu == "🧰 Parts Database":
 
@@ -657,7 +941,7 @@ elif menu == "🧰 Parts Database":
             st.write(f"Capacity: {p['capacity']}")
             st.markdown("---")
 
-# ------------------ MAINTENANCE TIMELINE ------------------
+# ------------------ MAINTENANCE TIMELINE (DROPDOWN VERSION) ------------------
 
 elif menu == "📅 Maintenance Timeline":
 
@@ -665,48 +949,52 @@ elif menu == "📅 Maintenance Timeline":
 
     km_now = st.number_input("Current KM", 0, step=100)
 
+    st.markdown("### 📂 Select a service to view its full timeline")
+
     for name, spec in WORKSHOP.items():
+
         interval = spec.get("interval_km")
         if not interval:
-            continue
+            continue  # skip items without intervals
 
-        st.markdown(f"### {label(name)}")
-        last = data["last_service"].get(name)
+        with st.expander(f"{spec['category']} — {label(name)}"):
 
-        if last is not None:
-            st.write(f"Last recorded service: {last} km")
-        else:
-            st.write("Last recorded service: —")
+            last = data["last_service"].get(name)
 
-        st.write(f"Primary interval: {interval} km")
-        if "secondary_interval_km" in spec:
-            st.write(f"Secondary interval: {spec['secondary_interval_km']} km")
+            st.write(f"**Primary Interval:** {interval} km")
+            if "secondary_interval_km" in spec:
+                st.write(f"**Secondary Interval:** {spec['secondary_interval_km']} km")
 
-        st.write("Planned services up to 300,000 km:")
+            if last is not None:
+                st.write(f"**Last Recorded Service:** {last} km")
+            else:
+                st.write("**Last Recorded Service:** —")
 
-        points = []
-        km_point = interval
-        while km_point <= MAX_KM:
-            points.append(km_point)
-            km_point += interval
+            st.markdown("#### 🔧 Service Points (0–300,000 km)")
 
-        if not points:
-            st.write("No interval points calculated.")
-        else:
+            # Generate interval points
+            points = []
+            km_point = interval
+            while km_point <= MAX_KM:
+                points.append(km_point)
+                km_point += interval
+
+            # Display timeline with status
             for p in points:
                 status = ""
                 if km_now:
                     if last is not None and last >= p:
-                        status = "✅ done (logged)"
+                        status = "✅ done"
                     elif km_now >= p:
                         status = "🔴 overdue"
                     elif p - km_now <= SOON_THRESHOLD:
                         status = "🟠 soon"
                     else:
                         status = "⚪ upcoming"
+
                 st.write(f"- {p} km {status}")
 
-        st.markdown("---")
+            st.markdown("---")
 
 # ------------------ HISTORY ------------------
 
