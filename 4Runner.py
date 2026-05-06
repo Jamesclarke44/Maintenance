@@ -37,14 +37,11 @@ WORKSHOP = {
         "capacity": "5.7 L",
         "interval_km": 8000,
         "torque": {"drain_plug": "30 ft-lb"},
-        "washers": {
-            "drain_plug": {"type": "crush", "material": "aluminum", "replace": True}
-        },
         "sockets": {"drain_plug": "14 mm"},
         "workflow": [
             "Warm engine",
             "Remove drain plug",
-            "Replace crush washer",
+            "Install new crush washer",
             "Torque drain plug to 30 ft-lb",
             "Refill 5.7 L 0W-20",
             "Check level"
@@ -57,10 +54,6 @@ WORKSHOP = {
         "capacity": "1.3 L",
         "interval_km": 48000,
         "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "washers": {
-            "fill_plug": {"type": "crush", "material": "aluminum", "replace": True},
-            "drain_plug": {"type": "crush", "material": "aluminum", "replace": True}
-        },
         "sockets": {"fill_plug": "24 mm", "drain_plug": "24 mm"},
         "workflow": [
             "Remove fill plug first",
@@ -78,10 +71,6 @@ WORKSHOP = {
         "capacity": "2.7 L",
         "interval_km": 48000,
         "torque": {"fill_plug": "36 ft-lb", "drain_plug": "36 ft-lb"},
-        "washers": {
-            "fill_plug": {"type": "crush", "material": "aluminum", "replace": True},
-            "drain_plug": {"type": "crush", "material": "aluminum", "replace": True}
-        },
         "sockets": {"fill_plug": "24 mm", "drain_plug": "24 mm"},
         "workflow": [
             "Remove fill plug first",
@@ -99,10 +88,6 @@ WORKSHOP = {
         "capacity": "1.0 L",
         "interval_km": 48000,
         "torque": {"fill_plug": "27 ft-lb", "drain_plug": "27 ft-lb"},
-        "washers": {
-            "fill_plug": {"type": "crush", "material": "aluminum", "replace": True},
-            "drain_plug": {"type": "crush", "material": "aluminum", "replace": True}
-        },
         "sockets": {"fill_plug": "24 mm", "drain_plug": "24 mm"},
         "workflow": [
             "Remove fill plug first",
@@ -120,10 +105,6 @@ WORKSHOP = {
         "capacity": "3.0–4.3 L per drain",
         "interval_km": 96000,
         "torque": {"fill_plug": "29 ft-lb", "drain_plug": "15 ft-lb"},
-        "washers": {
-            "fill_plug": {"type": "crush", "material": "aluminum", "replace": True},
-            "drain_plug": {"type": "crush", "material": "aluminum", "replace": True}
-        },
         "sockets": {"fill_plug": "24 mm", "drain_plug": "14 mm"},
         "workflow": [
             "Warm transmission to ~40°C",
@@ -140,6 +121,8 @@ WORKSHOP = {
     # PROPELLER SHAFT
     "propeller_shaft": {
         "interval_km": 12000,
+        "grease_type": "NLGI #2 Lithium EP Moly Grease",
+        "grease_amount": "1–3 pumps per zerk (stop when boot swells)",
         "workflow": [
             "Grease front U-joints",
             "Grease rear U-joints",
@@ -151,8 +134,9 @@ WORKSHOP = {
     # BRAKE FLUID
     "brake_fluid": {
         "interval_km": 48000,
+        "fluid": "DOT 3 or DOT 4",
+        "capacity": "Approx. 1 L for full flush",
         "workflow": [
-            "Use DOT 3 or DOT 4",
             "Bleed sequence: RR → LR → RF → LF"
         ]
     },
@@ -162,6 +146,7 @@ WORKSHOP = {
         "interval_km": 160000,
         "secondary_interval_km": 80000,
         "fluid": "Toyota Super Long Life Coolant (Pink)",
+        "capacity": "Approx. 11.4 L total system",
         "workflow": [
             "Drain cold engine",
             "Refill with Toyota SLLC Pink",
@@ -183,7 +168,7 @@ WORKSHOP = {
     },
 
     # MAF SENSOR
-    "maf_sensor": {
+    "MAF_sensor": {
         "interval_km": 30000,
         "workflow": ["Remove sensor", "Spray MAF cleaner", "Dry fully", "Reinstall"]
     },
@@ -239,19 +224,21 @@ elif menu == "🛠 Service Mode":
     st.markdown(f"## 🔧 {label(service)}")
 
     # FLUID
-    st.write("### Fluid")
-    st.write(spec.get("fluid", "—"))
+    if "fluid" in spec:
+        st.write("### Fluid")
+        st.write(spec["fluid"])
 
     # CAPACITY
-    st.write("### Capacity")
-    st.write(spec.get("capacity", "—"))
+    if "capacity" in spec:
+        st.write("### Capacity")
+        st.write(spec["capacity"])
 
     # INTERVAL
     st.write("### Interval (Primary)")
     st.write(spec.get("interval_km", "—"))
     if "secondary_interval_km" in spec:
         st.write("### Interval (Secondary)")
-        st.write(spec.get("secondary_interval_km"))
+        st.write(spec["secondary_interval_km"])
 
     st.markdown("---")
 
@@ -267,13 +254,11 @@ elif menu == "🛠 Service Mode":
         for k, v in spec["sockets"].items():
             st.write(f"- {label(k)}: {v}")
 
-    # WASHERS
-    if "washers" in spec:
-        st.markdown("### 🧰 Washers")
-        for k, w in spec["washers"].items():
-            st.write(
-                f"- {label(k)}: {w['type']} ({w['material']}) | Replace: {w['replace']}"
-            )
+    # GREASE (Prop shaft)
+    if "grease_type" in spec:
+        st.markdown("### 🧴 Grease")
+        st.write(f"Type: {spec['grease_type']}")
+        st.write(f"Amount: {spec['grease_amount']}")
 
     # WORKFLOW
     st.markdown("### 📋 Workflow")
@@ -320,12 +305,9 @@ elif menu == "📘 Workshop":
             for k, v in spec["sockets"].items():
                 st.write(f"- {label(k)}: {v}")
 
-        if "washers" in spec:
-            st.write("**Washers:**")
-            for k, w in spec["washers"].items():
-                st.write(
-                    f"- {label(k)}: {w['type']} ({w['material']}) | Replace: {w['replace']}"
-                )
+        if "grease_type" in spec:
+            st.write(f"**Grease Type:** {spec['grease_type']}")
+            st.write(f"**Grease Amount:** {spec['grease_amount']}")
 
         if "workflow" in spec:
             st.write("**Workflow:**")
@@ -347,4 +329,3 @@ elif menu == "📒 History":
             if log["notes"]:
                 st.write(f"Notes: {log['notes']}")
             st.markdown("---")
-            
