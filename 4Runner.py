@@ -11,308 +11,131 @@ WORKSHOP = {
         "fluid": "0W-20 Synthetic Oil",
         "capacity": "5.7 L",
         "interval_km": 8000,
-        "torque": {
-            "drain_plug": "30 ft-lb"
-        },
-        "washers": {
-            "drain_plug": "crush washer (replace every service)"
-        },
-        "sockets": {
-            "Drain Plug": "14 mm",
-            "Filter": "Toyota cartridge wrench"
-        },
-        "workflow": [
-            "Warm engine slightly",
-            "Remove skid plate if equipped",
-            "Remove drain plug (14 mm)",
-            "Drain oil completely",
-            "Replace crush washer",
-            "Reinstall drain plug",
-            "Torque drain plug to 30 ft-lb",
-            "Replace oil filter",
-            "Refill with 5.7 L oil",
-            "Start engine and check leaks"
-        ]
+        "torque": {"drain_plug": "30 ft-lb"},
+        "washers": {"drain_plug": "crush washer"},
+        "sockets": {"Drain Plug": "14 mm"},
+        "workflow": ["Warm engine", "Drain oil", "Replace washer", "Torque drain plug", "Refill oil"]
     },
 
     "Transmission (Drain & Fill)": {
         "fluid": "Toyota ATF WS",
         "capacity": "3.0–4.3 L",
         "interval_km": 96000,
-        "temp": "40–45°C",
-        "torque": {
-            "fill_plug": "15 ft-lb",
-            "drain_plug": "29 ft-lb"
-        },
-        "washers": {
-            "fill_plug": "crush washer",
-            "drain_plug": "crush washer"
-        },
-        "sockets": {
-            "Fill Plug": "24 mm",
-            "Drain Plug": "14 mm",
-            "Level Check": "5 mm Allen"
-        },
-        "workflow": [
-            "Warm transmission to operating temp",
-            "Level vehicle on flat ground",
-            "Remove fill plug FIRST (24 mm)",
-            "Drain fluid (14 mm)",
-            "Reinstall drain plug",
-            "Torque drain plug to 29 ft-lb",
-            "Fill with Toyota ATF WS",
-            "Check fluid at 40–45°C",
-            "Install fill plug",
-            "Torque fill plug to 15 ft-lb",
-            "Check for leaks"
-        ]
+        "torque": {"fill_plug": "15 ft-lb", "drain_plug": "29 ft-lb"},
+        "sockets": {"Fill Plug": "24 mm", "Drain Plug": "14 mm"},
+        "washers": {"fill_plug": "crush washer", "drain_plug": "crush washer"},
+        "workflow": ["Warm transmission", "Drain", "Fill", "Check temp 40–45°C"]
     },
 
     "Front Differential": {
-        "fluid": "75W-85 GL-5",
-        "capacity": "1.3 L",
         "interval_km": 48000,
-        "torque": {
-            "fill_plug": "48 ft-lb",
-            "drain_plug": "48 ft-lb"
-        },
-        "washers": {
-            "fill_plug": "crush washer",
-            "drain_plug": "crush washer"
-        },
-        "sockets": {
-            "Fill Plug": "24 mm",
-            "Drain Plug": "24 mm"
-        },
-        "workflow": [
-            "Remove fill plug FIRST",
-            "Drain fluid",
-            "Reinstall drain plug",
-            "Torque drain plug to 48 ft-lb",
-            "Fill until overflow",
-            "Reinstall fill plug",
-            "Torque fill plug to 48 ft-lb"
-        ]
+        "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
+        "sockets": {"Fill": "24 mm", "Drain": "24 mm"}
     },
 
     "Rear Differential": {
-        "fluid": "75W-85 GL-5",
-        "capacity": "2.7 L",
         "interval_km": 48000,
-        "torque": {
-            "fill_plug": "48 ft-lb",
-            "drain_plug": "48 ft-lb"
-        },
-        "washers": {
-            "fill_plug": "crush washer",
-            "drain_plug": "crush washer"
-        },
-        "sockets": {
-            "Fill Plug": "24 mm",
-            "Drain Plug": "24 mm"
-        },
-        "workflow": [
-            "Remove fill plug FIRST",
-            "Drain fluid completely",
-            "Reinstall drain plug",
-            "Torque drain plug to 48 ft-lb",
-            "Fill until fluid seeps out",
-            "Reinstall fill plug",
-            "Torque fill plug to 48 ft-lb"
-        ]
+        "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
+        "sockets": {"Fill": "24 mm", "Drain": "24 mm"}
     },
 
     "Transfer Case": {
-        "fluid": "75W-90 GL-4/GL-5",
-        "capacity": "1.0 L",
         "interval_km": 48000,
-        "torque": {
-            "fill_plug": "48 ft-lb",
-            "drain_plug": "48 ft-lb"
-        },
-        "washers": {
-            "fill_plug": "crush washer",
-            "drain_plug": "crush washer"
-        },
-        "sockets": {
-            "Fill Plug": "24 mm",
-            "Drain Plug": "24 mm"
-        },
-        "workflow": [
-            "Remove fill plug FIRST",
-            "Drain fluid",
-            "Reinstall drain plug",
-            "Torque drain plug to 48 ft-lb",
-            "Fill with 1.0 L gear oil",
-            "Reinstall fill plug",
-            "Torque fill plug to 48 ft-lb"
-        ]
+        "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
+        "sockets": {"Fill": "24 mm", "Drain": "24 mm"}
     },
 
-    "Propeller Shaft (Greasing)": {
-        "fluid": "Lithium-based NLGI #2 grease",
-        "capacity": "Grease until fresh appears",
+    "Propeller Shaft Grease": {
         "interval_km": 10000,
-        "workflow": [
-            "Lift and support vehicle safely",
-            "Locate all grease fittings",
-            "Clean fittings",
-            "Pump grease into U-joints and slip yoke",
-            "Stop when fresh grease appears",
-            "Rotate driveshaft to access all fittings",
-            "Wipe excess grease",
-            "Test drive for clunking"
-        ]
+        "sockets": {"bolts": "14 mm"},
+        "workflow": ["Grease U-joints", "Grease slip yoke"]
     },
 
     "Power Steering Fluid": {
-        "fluid": "Dexron III / Toyota ATF",
-        "capacity": "Approx. 1.0 L (exchange)",
         "interval_km": 80000,
-        "warnings": [
-            "Do NOT run pump dry (can damage pump)",
-            "Do NOT hold steering at full lock for more than 2–3 seconds",
-            "Foamy fluid indicates air in system",
-            "Always maintain fluid level during exchange"
-        ],
-        "workflow": [
-            "Ensure engine is OFF",
-            "Locate power steering reservoir",
-            "Clean area around cap",
-            "Remove reservoir cap",
-            "Use pump or turkey baster to remove old fluid",
-            "Refill with fresh ATF",
-            "Start engine",
-            "Turn steering wheel slowly lock-to-lock",
-            "Do NOT hold at full lock",
-            "Shut engine OFF",
-            "Repeat fluid extraction from reservoir",
-            "Refill with fresh ATF",
-            "Repeat cycle 3–5 times until fluid runs clean",
-            "Final refill to proper level",
-            "Start engine and cycle steering again",
-            "Check for foaming or noise",
-            "Inspect system for leaks",
-            "Recheck level after test drive"
-        ]
+        "workflow": ["Drain reservoir", "Refill ATF", "Cycle steering"]
     },
 
     "Brake Fluid": {
-        "fluid": "DOT 3",
-        "capacity": "0.8–1.0 L",
         "interval_km": 48000,
-        "workflow": [
-            "Start at Right Rear",
-            "Keep reservoir full",
-            "Bleed Left Rear",
-            "Bleed Right Front",
-            "Bleed Left Front",
-            "Continue until clear fluid",
-            "Check pedal feel"
-        ]
+        "workflow": ["RR → LR → RF → LF bleed sequence"]
     },
 
     "Coolant": {
-        "fluid": "Toyota SLLC (Pink)",
-        "capacity": "11–12 L",
         "interval_km": 160000,
-        "interval_after": 80000,
-        "warnings": [
-            "Engine must be completely cold before opening radiator",
-            "Set heater to MAX HOT during bleeding",
-            "Air pockets can cause overheating"
-        ],
-        "workflow": [
-            "Ensure engine is completely cold",
-            "Set heater to MAX HOT",
-            "Remove radiator cap",
-            "Open radiator drain cock (petcock)",
-            "Drain coolant completely",
-            "Optional: remove engine block drains for full drain",
-            "Close radiator drain",
-            "Reinstall block drains if removed",
-            "Slowly fill radiator with Toyota SLLC",
-            "Fill overflow reservoir to FULL line",
-            "Leave radiator cap OFF",
-            "Start engine and let idle",
-            "Watch coolant level and top up as it drops",
-            "Squeeze upper radiator hose to release air",
-            "Wait for engine to reach operating temperature",
-            "Confirm thermostat opens (upper hose gets hot)",
-            "Top off coolant as needed",
-            "Continue until no more bubbles appear",
-            "Install radiator cap",
-            "Run engine for a few more minutes",
-            "Shut engine off and let fully cool",
-            "Recheck radiator and reservoir levels",
-            "Top off if needed",
-            "Inspect for leaks"
-        ]
+        "workflow": ["Drain", "Refill", "Bleed air system"]
     },
 
     "Cabin Air Filter": {
-        "part": "Toyota OEM Cabin Air Filter",
         "interval_km": 24000,
-        "interval_months": 12,
-        "location": "Behind glove box",
-        "warnings": [
-            "Install filter in correct airflow direction (arrow)",
-            "Debris may fall out when removing old filter",
-            "Do not force glove box clips"
-        ],
-        "inspection": [
-            "Check for dirt, leaves, and debris",
-            "Check airflow restriction",
-            "Replace if dark or clogged"
-        ],
-        "workflow": [
-            "Open glove box",
-            "Remove contents",
-            "Unclip or push in sides of glove box to drop it down",
-            "Locate cabin filter housing cover",
-            "Unclip and remove cover",
-            "Slide out old cabin filter",
-            "Inspect filter condition",
-            "Insert new filter with airflow arrow pointing correctly",
-            "Reinstall filter cover",
-            "Reinstall glove box",
-            "Verify smooth glove box operation"
-        ]
+        "workflow": ["Drop glove box", "Replace filter"]
     },
 
     "Engine Air Filter": {
-        "part": "Toyota OEM Engine Air Filter",
         "interval_km": 24000,
-        "interval_months": 12,
-        "location": "Engine bay air box",
-        "warnings": [
-            "Do NOT use compressed air to clean filter (can damage it)",
-            "Ensure filter seats properly to avoid unfiltered air entering engine",
-            "Check for debris in air box before installing new filter"
-        ],
-        "inspection": [
-            "Check for dirt and debris buildup",
-            "Hold up to light — if light is blocked, replace",
-            "Check for oil contamination or moisture",
-            "Inspect air box for leaves, bugs, or debris"
-        ],
-        "workflow": [
-            "Open hood",
-            "Locate engine air filter box",
-            "Release metal clips or screws",
-            "Lift air box cover carefully",
-            "Remove old air filter",
-            "Inspect filter condition",
-            "Clean out debris inside air box",
-            "Insert new filter (ensure correct orientation)",
-            "Reinstall air box cover",
-            "Secure all clips properly",
-            "Verify seal is tight all around"
-        ]
+        "workflow": ["Open air box", "Replace filter"]
+    },
+
+    "MAF Sensor Cleaning": {
+        "interval_km": 30000,
+        "workflow": ["Remove sensor", "Clean with MAF spray", "Dry", "Reinstall"]
+    },
+
+    "Throttle Body Cleaning": {
+        "interval_km": 40000,
+        "workflow": ["Remove intake hose", "Clean plate", "Reinstall"]
     }
 }
 
+# ------------------ SMART INTELLIGENCE LAYER ------------------
+
+def get_overdue_score(service, km):
+    spec = WORKSHOP.get(service, {})
+    interval = spec.get("interval_km", None)
+
+    if not interval:
+        return 0
+
+    last = data["last_service"].get(service, km)
+    overdue_km = km - (last + interval)
+
+    if overdue_km <= 0:
+        return 0
+
+    return min(100, int((overdue_km / interval) * 100))
+
+
+def get_risk_level(score):
+    if score == 0:
+        return "OK"
+    elif score < 30:
+        return "LOW"
+    elif score < 70:
+        return "MEDIUM"
+    return "HIGH"
+
+
+DEPENDENCIES = {
+    "MAF Sensor Cleaning": ["Throttle Body Cleaning", "Engine Air Filter"],
+    "Engine Air Filter": ["MAF Sensor Cleaning"],
+    "Throttle Body Cleaning": ["MAF Sensor Cleaning"],
+    "Propeller Shaft Grease": ["Clunk / Vibration"],
+    "Transmission (Drain & Fill)": ["Slow Acceleration"]
+}
+
+# ------------------ DIAGNOSTICS ------------------
+
+DIAGNOSTICS = {
+    "Rough Idle": ["Throttle Body Cleaning", "MAF Sensor Cleaning", "Engine Air Filter"],
+    "Poor Fuel Economy": ["MAF Sensor Cleaning", "Engine Air Filter"],
+    "Clunk / Vibration": ["Propeller Shaft Grease", "Front Differential", "Rear Differential"],
+    "Slow Acceleration": ["Transmission (Drain & Fill)", "MAF Sensor Cleaning"],
+    "Overheating": ["Coolant"],
+    "Hard Starting": ["Battery Inspection", "Spark Plugs"]
+}
+
 # ------------------ DATA ------------------
+
 def load_data():
     try:
         with open(FILE, "r") as f:
@@ -320,28 +143,32 @@ def load_data():
     except:
         return {"logs": [], "last_service": {}}
 
+
 def save_data(data):
     with open(FILE, "w") as f:
         json.dump(data, f, indent=4)
 
+
 data = load_data()
 
 # ------------------ UI ------------------
+
 st.set_page_config(page_title="4Runner Workshop OS", layout="centered")
 st.title("🔧 4Runner Workshop OS")
 
-menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop Specs", "📒 History"])
+menu = st.radio("", ["📊 Dashboard", "🛠 Service Mode", "📘 Workshop", "🧠 Diagnostics", "📒 History"])
 
 # ------------------ DASHBOARD ------------------
+
 if menu == "📊 Dashboard":
-    km = st.number_input("Current KM", min_value=0, step=100)
+    km = st.number_input("Current KM", 0)
 
     if km:
         for item, spec in WORKSHOP.items():
             interval = spec.get("interval_km", 0)
             last = data["last_service"].get(item, 0)
 
-            if interval > 0:
+            if interval:
                 due = last + interval
                 if km >= due:
                     st.error(f"⚠️ {item} DUE")
@@ -349,73 +176,67 @@ if menu == "📊 Dashboard":
                     st.success(f"{item}: {due - km} km remaining")
 
 # ------------------ SERVICE MODE ------------------
+
 elif menu == "🛠 Service Mode":
-    service = st.selectbox("Select System", list(WORKSHOP.keys()))
-    km = st.number_input("Current KM", min_value=0, step=100)
+    service = st.selectbox("Select Service", list(WORKSHOP.keys()))
+    km = st.number_input("KM", 0)
     notes = st.text_area("Notes")
 
     spec = WORKSHOP[service]
 
-    st.markdown("## 🔧 Specs")
-    st.write(f"Fluid: {spec.get('fluid', spec.get('part','-'))}")
-    st.write(f"Capacity: {spec.get('capacity','-')}")
-    st.write(f"Interval: {spec.get('interval_km','-')} km")
+    st.write("### Specs")
+    st.write(spec.get("fluid", spec.get("capacity", "")))
 
-    if "torque" in spec:
-        st.markdown("### 🔧 Torque Specs")
-        st.write(f"• Drain plug: {spec['torque'].get('drain_plug','-')}")
-        st.write(f"• Fill plug: {spec['torque'].get('fill_plug','-')}")
-
-    if "washers" in spec:
-        st.markdown("### 🧰 Washers")
-        st.write(f"• Drain plug: {spec['washers'].get('drain_plug','-')}")
-        st.write(f"• Fill plug: {spec['washers'].get('fill_plug','-')}")
-
-    if "warnings" in spec:
-        st.markdown("### ⚠️ Important Warnings")
-        for w in spec["warnings"]:
-            st.warning(w)
-
-    if "inspection" in spec:
-        st.markdown("### 🔍 Inspection")
-        for i in spec["inspection"]:
-            st.write(f"• {i}")
-
-    if "workflow" in spec:
-        st.markdown("### 📋 Workflow")
-        for i, step in enumerate(spec["workflow"], 1):
-            st.write(f"{i}. {step}")
-
-    if st.button("✔ Save Service"):
-        entry = {
+    if st.button("Save Service"):
+        data["logs"].append({
             "service": service,
             "km": km,
             "date": str(datetime.now()),
             "notes": notes
-        }
+        })
 
-        data["logs"].append(entry)
         data["last_service"][service] = km
         save_data(data)
+        st.success("Saved ✔")
 
-        st.success("Saved ✔️")
+# ------------------ WORKSHOP ------------------
 
-# ------------------ WORKSHOP SPECS ------------------
-elif menu == "📘 Workshop Specs":
+elif menu == "📘 Workshop":
     for name, spec in WORKSHOP.items():
+        st.markdown(f"### {name}")
+        st.write(spec)
+
+# ------------------ DIAGNOSTICS (SMART) ------------------
+
+elif menu == "🧠 Diagnostics":
+    st.subheader("Smart Diagnostics")
+
+    symptom = st.selectbox("Select Symptom", list(DIAGNOSTICS.keys()))
+    km = st.number_input("Current KM", 0)
+
+    st.markdown("### Analysis")
+
+    for item in DIAGNOSTICS[symptom]:
+
+        score = get_overdue_score(item, km)
+        risk = get_risk_level(score)
+
+        st.write(f"**{item}**")
+        st.write(f"- Risk: {risk}")
+        st.write(f"- Score: {score}/100")
+
+        if item in DEPENDENCIES:
+            st.write("Related:")
+            for d in DEPENDENCIES[item]:
+                st.write(f"  • {d}")
+
         st.markdown("---")
-        st.write(f"### {name}")
-        st.write(f"Fluid/Part: {spec.get('fluid', spec.get('part','-'))}")
-        st.write(f"Capacity: {spec.get('capacity','-')}")
-        st.write(f"Interval: {spec.get('interval_km','-')} km")
 
 # ------------------ HISTORY ------------------
+
 elif menu == "📒 History":
     if not data["logs"]:
-        st.info("No service records yet.")
+        st.info("No records yet")
     else:
         for log in reversed(data["logs"]):
-            st.write(f"{log['service']} @ {log['km']} km")
-            st.write(log["date"])
-            st.write(log["notes"])
-            st.markdown("---")
+            st.write(log)
