@@ -248,6 +248,67 @@ WORKSHOP = {
             "Top off if needed",
             "Inspect for leaks"
         ]
+    },
+
+    "Cabin Air Filter": {
+        "part": "Toyota OEM Cabin Air Filter",
+        "interval_km": 24000,
+        "interval_months": 12,
+        "location": "Behind glove box",
+        "warnings": [
+            "Install filter in correct airflow direction (arrow)",
+            "Debris may fall out when removing old filter",
+            "Do not force glove box clips"
+        ],
+        "inspection": [
+            "Check for dirt, leaves, and debris",
+            "Check airflow restriction",
+            "Replace if dark or clogged"
+        ],
+        "workflow": [
+            "Open glove box",
+            "Remove contents",
+            "Unclip or push in sides of glove box to drop it down",
+            "Locate cabin filter housing cover",
+            "Unclip and remove cover",
+            "Slide out old cabin filter",
+            "Inspect filter condition",
+            "Insert new filter with airflow arrow pointing correctly",
+            "Reinstall filter cover",
+            "Reinstall glove box",
+            "Verify smooth glove box operation"
+        ]
+    },
+
+    "Engine Air Filter": {
+        "part": "Toyota OEM Engine Air Filter",
+        "interval_km": 24000,
+        "interval_months": 12,
+        "location": "Engine bay air box",
+        "warnings": [
+            "Do NOT use compressed air to clean filter (can damage it)",
+            "Ensure filter seats properly to avoid unfiltered air entering engine",
+            "Check for debris in air box before installing new filter"
+        ],
+        "inspection": [
+            "Check for dirt and debris buildup",
+            "Hold up to light — if light is blocked, replace",
+            "Check for oil contamination or moisture",
+            "Inspect air box for leaves, bugs, or debris"
+        ],
+        "workflow": [
+            "Open hood",
+            "Locate engine air filter box",
+            "Release metal clips or screws",
+            "Lift air box cover carefully",
+            "Remove old air filter",
+            "Inspect filter condition",
+            "Clean out debris inside air box",
+            "Insert new filter (ensure correct orientation)",
+            "Reinstall air box cover",
+            "Secure all clips properly",
+            "Verify seal is tight all around"
+        ]
     }
 }
 
@@ -296,7 +357,7 @@ elif menu == "🛠 Service Mode":
     spec = WORKSHOP[service]
 
     st.markdown("## 🔧 Specs")
-    st.write(f"Fluid: {spec.get('fluid','-')}")
+    st.write(f"Fluid: {spec.get('fluid', spec.get('part','-'))}")
     st.write(f"Capacity: {spec.get('capacity','-')}")
     st.write(f"Interval: {spec.get('interval_km','-')} km")
 
@@ -314,6 +375,11 @@ elif menu == "🛠 Service Mode":
         st.markdown("### ⚠️ Important Warnings")
         for w in spec["warnings"]:
             st.warning(w)
+
+    if "inspection" in spec:
+        st.markdown("### 🔍 Inspection")
+        for i in spec["inspection"]:
+            st.write(f"• {i}")
 
     if "workflow" in spec:
         st.markdown("### 📋 Workflow")
@@ -339,8 +405,9 @@ elif menu == "📘 Workshop Specs":
     for name, spec in WORKSHOP.items():
         st.markdown("---")
         st.write(f"### {name}")
-        st.write(f"Fluid: {spec.get('fluid','-')}")
+        st.write(f"Fluid/Part: {spec.get('fluid', spec.get('part','-'))}")
         st.write(f"Capacity: {spec.get('capacity','-')}")
+        st.write(f"Interval: {spec.get('interval_km','-')} km")
 
 # ------------------ HISTORY ------------------
 elif menu == "📒 History":
