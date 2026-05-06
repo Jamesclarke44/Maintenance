@@ -32,7 +32,13 @@ WORKSHOP = {
         "torque": {"drain_plug": "30 ft-lb"},
         "washers": {"drain_plug": "crush washer"},
         "sockets": {"Drain Plug": "14 mm"},
-        "workflow": ["Warm engine", "Drain oil", "Replace washer", "Torque drain plug", "Refill oil"]
+        "workflow": [
+            "Warm engine",
+            "Drain oil",
+            "Replace washer",
+            "Torque drain plug",
+            "Refill oil"
+        ]
     },
 
     "Transmission (Drain & Fill)": {
@@ -42,25 +48,42 @@ WORKSHOP = {
         "torque": {"fill_plug": "15 ft-lb", "drain_plug": "29 ft-lb"},
         "sockets": {"Fill Plug": "24 mm", "Drain Plug": "14 mm"},
         "washers": {"fill_plug": "crush washer", "drain_plug": "crush washer"},
-        "workflow": ["Warm transmission", "Drain", "Fill", "Check temp 40–45°C"]
+        "workflow": [
+            "Warm transmission",
+            "Remove fill plug FIRST",
+            "Drain fluid",
+            "Reinstall drain plug",
+            "Fill with ATF WS",
+            "Check temp 40–45°C",
+            "Install fill plug"
+        ]
     },
 
     "Front Differential": {
+        "fluid": "75W-85 GL-5",
+        "capacity": "1.3 L",
         "interval_km": 48000,
         "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "sockets": {"Fill": "24 mm", "Drain": "24 mm"}
+        "sockets": {"Fill": "24 mm", "Drain": "24 mm"},
+        "workflow": ["Remove fill plug", "Drain", "Fill until overflow"]
     },
 
     "Rear Differential": {
+        "fluid": "75W-85 GL-5",
+        "capacity": "2.7 L",
         "interval_km": 48000,
         "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "sockets": {"Fill": "24 mm", "Drain": "24 mm"}
+        "sockets": {"Fill": "24 mm", "Drain": "24 mm"},
+        "workflow": ["Remove fill plug", "Drain", "Fill until overflow"]
     },
 
     "Transfer Case": {
+        "fluid": "75W-90 GL-4/GL-5",
+        "capacity": "1.0 L",
         "interval_km": 48000,
         "torque": {"fill_plug": "48 ft-lb", "drain_plug": "48 ft-lb"},
-        "sockets": {"Fill": "24 mm", "Drain": "24 mm"}
+        "sockets": {"Fill": "24 mm", "Drain": "24 mm"},
+        "workflow": ["Remove fill plug", "Drain", "Fill"]
     },
 
     "Propeller Shaft Grease": {
@@ -81,7 +104,7 @@ WORKSHOP = {
 
     "Coolant": {
         "interval_km": 160000,
-        "workflow": ["Drain", "Refill", "Bleed air system"]
+        "workflow": ["Drain cold", "Refill", "Bleed air system"]
     },
 
     "Cabin Air Filter": {
@@ -96,7 +119,7 @@ WORKSHOP = {
 
     "MAF Sensor Cleaning": {
         "interval_km": 30000,
-        "workflow": ["Remove sensor", "Clean with MAF spray", "Dry", "Reinstall"]
+        "workflow": ["Remove sensor", "Clean MAF spray", "Dry", "Reinstall"]
     },
 
     "Throttle Body Cleaning": {
@@ -105,7 +128,7 @@ WORKSHOP = {
     }
 }
 
-# ------------------ SMART INTELLIGENCE ------------------
+# ------------------ INTELLIGENCE ------------------
 
 def get_overdue_score(service, km):
     spec = WORKSHOP.get(service)
@@ -129,7 +152,7 @@ def get_overdue_score(service, km):
     return min(100, int((overdue / interval) * 100))
 
 
-def get_risk_level(score):
+def get_risk(score):
     if score == 0:
         return "OK"
     elif score < 30:
@@ -143,7 +166,6 @@ DEPENDENCIES = {
     "MAF Sensor Cleaning": ["Throttle Body Cleaning", "Engine Air Filter"],
     "Engine Air Filter": ["MAF Sensor Cleaning"],
     "Throttle Body Cleaning": ["MAF Sensor Cleaning"],
-    "Propeller Shaft Grease": ["Clunk / Vibration"],
     "Transmission (Drain & Fill)": ["Slow Acceleration"]
 }
 
@@ -152,8 +174,7 @@ DIAGNOSTICS = {
     "Poor Fuel Economy": ["MAF Sensor Cleaning", "Engine Air Filter"],
     "Clunk / Vibration": ["Propeller Shaft Grease", "Front Differential", "Rear Differential"],
     "Slow Acceleration": ["Transmission (Drain & Fill)", "MAF Sensor Cleaning"],
-    "Overheating": ["Coolant"],
-    "Hard Starting": ["Battery Inspection", "Spark Plugs"]
+    "Overheating": ["Coolant"]
 }
 
 # ------------------ UI ------------------
@@ -183,78 +204,104 @@ if menu == "📊 Dashboard":
                     else:
                         st.success(f"{item}: {due - km} km remaining")
 
-# ------------------ SERVICE MODE ------------------
+# ------------------ SERVICE MODE (FIXED) ------------------
 
 elif menu == "🛠 Service Mode":
+
     service = st.selectbox("Select Service", list(WORKSHOP.keys()))
-    km = st.number_input("KM", 0)
+    km = st.number_input("Current KM", 0)
     notes = st.text_area("Notes")
 
     spec = WORKSHOP[service]
 
-    st.write("### Specs")
-    st.write(spec.get("fluid", spec.get("capacity", "")))
+    st.markdown(f"# 🔧 {service}")
 
-    if st.button("Save Service"):
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("🛢 Fluid")
+        st.write(spec.get("fluid", "—"))
+
+    with col2:
+        st.write("📦 Capacity")
+        st.write(spec.get("capacity", "—"))
+
+    st.write(f"📅 Interval: {spec.get('interval_km', '—')} km")
+
+    st.markdown("---")
+
+    # QUICK SPECS
+    if "sockets" in spec:
+        st.markdown("### 🔩 Sockets")
+        for k, v in spec["sockets"].items():
+            st.write(f"- {k}: {v}")
+
+    if "torque" in spec:
+        st.markdown("### 🔧 Torque")
+        for k, v in spec["torque"].items():
+            st.write(f"- {k}: {v}")
+
+    if "washers" in spec:
+        st.markdown("### 🧰 Washers")
+        for k, v in spec["washers"].items():
+            st.write(f"- {k}: {v}")
+
+    st.markdown("---")
+
+    # WORKFLOW CHECKLIST
+    st.markdown("## 📋 Workflow")
+
+    completed = []
+
+    for i, step in enumerate(spec.get("workflow", []), 1):
+        done = st.checkbox(f"{i}. {step}", key=f"{service}_{i}")
+        if done:
+            completed.append(step)
+
+    st.markdown("---")
+
+    if st.button("✔ Save Service"):
+
         data["logs"].append({
             "service": service,
             "km": km,
             "date": str(datetime.now()),
-            "notes": notes
+            "notes": notes,
+            "steps_completed": completed
         })
 
         data["last_service"][service] = km
         save_data(data)
+
         st.success("Saved ✔")
 
-# ------------------ WORKSHOP (CLEAN UI FIXED) ------------------
+# ------------------ WORKSHOP ------------------
 
 elif menu == "📘 Workshop":
-    st.subheader("🔧 Workshop Reference Manual")
+    st.subheader("🔧 Workshop Reference")
 
     for name, spec in WORKSHOP.items():
-        with st.container():
+        st.markdown(f"## {name}")
 
-            st.markdown(f"## {name}")
+        if "fluid" in spec:
+            st.write(f"Fluid: {spec['fluid']}")
 
-            # BASIC INFO
-            if "fluid" in spec:
-                st.write(f"🛢 Fluid: {spec['fluid']}")
-            if "capacity" in spec:
-                st.write(f"📦 Capacity: {spec['capacity']}")
-            if "interval_km" in spec:
-                st.write(f"📅 Interval: {spec['interval_km']} km")
+        if "capacity" in spec:
+            st.write(f"Capacity: {spec['capacity']}")
 
-            # TORQUE
-            if "torque" in spec:
-                st.markdown("### 🔧 Torque Specs")
-                for k, v in spec["torque"].items():
-                    st.write(f"- {k}: {v}")
+        if "interval_km" in spec:
+            st.write(f"Interval: {spec['interval_km']} km")
 
-            # SOCKETS
-            if "sockets" in spec:
-                st.markdown("### 🔩 Tools / Sockets")
-                for k, v in spec["sockets"].items():
-                    st.write(f"- {k}: {v}")
+        if "workflow" in spec:
+            st.markdown("Workflow:")
+            for i, step in enumerate(spec["workflow"], 1):
+                st.write(f"{i}. {step}")
 
-            # WASHERS
-            if "washers" in spec:
-                st.markdown("### 🧰 Washers")
-                for k, v in spec["washers"].items():
-                    st.write(f"- {k}: {v}")
-
-            # WORKFLOW
-            if "workflow" in spec:
-                st.markdown("### 📋 Workflow")
-                for i, step in enumerate(spec["workflow"], 1):
-                    st.write(f"{i}. {step}")
-
-            st.markdown("---")
+        st.markdown("---")
 
 # ------------------ DIAGNOSTICS ------------------
 
 elif menu == "🧠 Diagnostics":
-    st.subheader("Smart Diagnostics")
 
     symptom = st.selectbox("Select Symptom", list(DIAGNOSTICS.keys()))
     km = st.number_input("Current KM", 0)
@@ -262,11 +309,11 @@ elif menu == "🧠 Diagnostics":
     for item in DIAGNOSTICS[symptom]:
 
         score = get_overdue_score(item, km)
-        risk = get_risk_level(score)
+        risk = get_risk(score)
 
         st.write(f"**{item}**")
-        st.write(f"- Risk: {risk}")
-        st.write(f"- Score: {score}/100")
+        st.write(f"Risk: {risk}")
+        st.write(f"Score: {score}/100")
 
         if item in DEPENDENCIES:
             st.write("Related:")
