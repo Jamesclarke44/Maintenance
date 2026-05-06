@@ -4,7 +4,25 @@ from datetime import datetime
 
 FILE = "4runner_maintenance.json"
 
+# ------------------ DATA ------------------
+
+def load_data():
+    try:
+        with open(FILE, "r") as f:
+            return json.load(f)
+    except:
+        return {"logs": [], "last_service": {}}
+
+
+def save_data(data):
+    with open(FILE, "w") as f:
+        json.dump(data, f, indent=4)
+
+
+data = load_data()
+
 # ------------------ WORKSHOP DATABASE ------------------
+
 WORKSHOP = {
 
     "Engine Oil": {
@@ -87,22 +105,28 @@ WORKSHOP = {
     }
 }
 
-# ------------------ SMART INTELLIGENCE LAYER ------------------
+# ------------------ SMART INTELLIGENCE ------------------
 
 def get_overdue_score(service, km):
-    spec = WORKSHOP.get(service, {})
-    interval = spec.get("interval_km", None)
+    spec = WORKSHOP.get(service)
+    if not spec:
+        return 0
 
+    interval = spec.get("interval_km")
     if not interval:
         return 0
 
-    last = data["last_service"].get(service, km)
-    overdue_km = km - (last + interval)
+    last = data["last_service"].get(service)
 
-    if overdue_km <= 0:
+    if last is None:
+        return 100
+
+    overdue = km - (last + interval)
+
+    if overdue <= 0:
         return 0
 
-    return min(100, int((overdue_km / interval) * 100))
+    return min(100, int((overdue / interval) * 100))
 
 
 def get_risk_level(score):
@@ -123,8 +147,6 @@ DEPENDENCIES = {
     "Transmission (Drain & Fill)": ["Slow Acceleration"]
 }
 
-# ------------------ DIAGNOSTICS ------------------
-
 DIAGNOSTICS = {
     "Rough Idle": ["Throttle Body Cleaning", "MAF Sensor Cleaning", "Engine Air Filter"],
     "Poor Fuel Economy": ["MAF Sensor Cleaning", "Engine Air Filter"],
@@ -133,23 +155,6 @@ DIAGNOSTICS = {
     "Overheating": ["Coolant"],
     "Hard Starting": ["Battery Inspection", "Spark Plugs"]
 }
-
-# ------------------ DATA ------------------
-
-def load_data():
-    try:
-        with open(FILE, "r") as f:
-            return json.load(f)
-    except:
-        return {"logs": [], "last_service": {}}
-
-
-def save_data(data):
-    with open(FILE, "w") as f:
-        json.dump(data, f, indent=4)
-
-
-data = load_data()
 
 # ------------------ UI ------------------
 
@@ -165,15 +170,18 @@ if menu == "📊 Dashboard":
 
     if km:
         for item, spec in WORKSHOP.items():
-            interval = spec.get("interval_km", 0)
-            last = data["last_service"].get(item, 0)
+            interval = spec.get("interval_km")
+            last = data["last_service"].get(item)
 
             if interval:
-                due = last + interval
-                if km >= due:
-                    st.error(f"⚠️ {item} DUE")
+                if last is None:
+                    st.warning(f"⚠️ {item}: NEVER SERVICED")
                 else:
-                    st.success(f"{item}: {due - km} km remaining")
+                    due = last + interval
+                    if km >= due:
+                        st.error(f"⚠️ {item} DUE")
+                    else:
+                        st.success(f"{item}: {due - km} km remaining")
 
 # ------------------ SERVICE MODE ------------------
 
@@ -199,22 +207,57 @@ elif menu == "🛠 Service Mode":
         save_data(data)
         st.success("Saved ✔")
 
-# ------------------ WORKSHOP ------------------
+# ------------------ WORKSHOP (CLEAN UI FIXED) ------------------
 
 elif menu == "📘 Workshop":
-    for name, spec in WORKSHOP.items():
-        st.markdown(f"### {name}")
-        st.write(spec)
+    st.subheader("🔧 Workshop Reference Manual")
 
-# ------------------ DIAGNOSTICS (SMART) ------------------
+    for name, spec in WORKSHOP.items():
+        with st.container():
+
+            st.markdown(f"## {name}")
+
+            # BASIC INFO
+            if "fluid" in spec:
+                st.write(f"🛢 Fluid: {spec['fluid']}")
+            if "capacity" in spec:
+                st.write(f"📦 Capacity: {spec['capacity']}")
+            if "interval_km" in spec:
+                st.write(f"📅 Interval: {spec['interval_km']} km")
+
+            # TORQUE
+            if "torque" in spec:
+                st.markdown("### 🔧 Torque Specs")
+                for k, v in spec["torque"].items():
+                    st.write(f"- {k}: {v}")
+
+            # SOCKETS
+            if "sockets" in spec:
+                st.markdown("### 🔩 Tools / Sockets")
+                for k, v in spec["sockets"].items():
+                    st.write(f"- {k}: {v}")
+
+            # WASHERS
+            if "washers" in spec:
+                st.markdown("### 🧰 Washers")
+                for k, v in spec["washers"].items():
+                    st.write(f"- {k}: {v}")
+
+            # WORKFLOW
+            if "workflow" in spec:
+                st.markdown("### 📋 Workflow")
+                for i, step in enumerate(spec["workflow"], 1):
+                    st.write(f"{i}. {step}")
+
+            st.markdown("---")
+
+# ------------------ DIAGNOSTICS ------------------
 
 elif menu == "🧠 Diagnostics":
     st.subheader("Smart Diagnostics")
 
     symptom = st.selectbox("Select Symptom", list(DIAGNOSTICS.keys()))
     km = st.number_input("Current KM", 0)
-
-    st.markdown("### Analysis")
 
     for item in DIAGNOSTICS[symptom]:
 
@@ -228,7 +271,7 @@ elif menu == "🧠 Diagnostics":
         if item in DEPENDENCIES:
             st.write("Related:")
             for d in DEPENDENCIES[item]:
-                st.write(f"  • {d}")
+                st.write(f"• {d}")
 
         st.markdown("---")
 
