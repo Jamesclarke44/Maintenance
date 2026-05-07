@@ -785,6 +785,13 @@ elif menu == "🛠 Service Mode":
         st.write(f"{spec['secondary_interval_km']} km")
 
     st.markdown("---")
+    
+    # OEM PARTS
+    if "oem" in spec:
+        st.markdown("### 🔌 OEM Recommended Parts")
+        for item in spec["oem"]:
+            st.write(f"- {item}")
+
 
     # TOOLS
     if "tools" in spec:
@@ -877,6 +884,11 @@ elif menu == "📘 Workshop":
                 if "grease_type" in spec:
                     st.write(f"**Grease Type:** {spec['grease_type']}")
                     st.write(f"**Grease Amount:** {spec['grease_amount']}")
+                
+                if "oem" in spec:
+                    st.write("**OEM Recommended:**")
+                    for item in spec["oem"]:
+                        st.write(f"- {item}")
 
                 if "tools" in spec:
                     st.write("**Tools Needed:**")
