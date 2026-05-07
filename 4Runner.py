@@ -288,7 +288,7 @@ WORKSHOP = {
     "spark_plugs": {
         "category": "Ignition",
         "interval_km": 192000,
-        "OEM": [
+        "oem": [
             "Denso FK20HR11",
             "NGK IFR6T11"
         ],
