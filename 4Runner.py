@@ -953,7 +953,7 @@ elif menu == "🧰 Parts Database":
 
     st.subheader("🧰 Parts & Fluids Database")
 
-    section = st.selectbox("Category", ["Filters", "Washers", "Fluids"])
+    section = st.selectbox("Category", ["Filters", "Washers", "Fluids", "Ignition"])
 
     if section == "Filters":
         st.markdown("### 🧼 Filters")
