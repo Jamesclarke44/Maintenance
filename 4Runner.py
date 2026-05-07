@@ -288,6 +288,10 @@ WORKSHOP = {
     "spark_plugs": {
         "category": "Ignition",
         "interval_km": 192000,
+        "OEM": [
+            "Denso FK20HR11"
+            "NGK IFR6T11"
+        ],
         "tools": [
             "10 mm socket",
             "14 mm spark plug socket",
