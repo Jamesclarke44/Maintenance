@@ -496,15 +496,28 @@ WORKSHOP = {
         ]
     },
 
-    "power_steering_inspection": {
-        "category": "Suspension & Steering",
-        "interval_km": 24000,
-        "tools": ["None"],
-        "workflow": [
-            "Inspect electric steering components",
-            "Check for noises or binding"
-        ]
-    },
+    "power_steering_fluid": {
+    "category": "Suspension & Steering",
+    "fluid": "Dexron III ATF (Toyota spec)",
+    "capacity": "Approx. 1.0 L system capacity (0.3–0.5 L per flush cycle)",
+    "interval_km": 48000,
+    "tools": [
+        "Fluid extractor or turkey baster",
+        "Catch bottle",
+        "Funnel",
+        "Shop towels"
+    ],
+    "workflow": [
+        "Locate power steering reservoir on passenger side of engine bay",
+        "Extract old fluid from reservoir using fluid extractor",
+        "Refill reservoir with Dexron III ATF",
+        "Start engine and turn steering wheel lock-to-lock several times",
+        "Repeat extract/refill cycle 2–3 times until fluid is bright red",
+        "Inspect pump, hoses, and rack for leaks",
+        "Verify fluid level at HOT mark after driving"
+    ]
+}
+
 
     # ============================================================
     # BREATHERS
