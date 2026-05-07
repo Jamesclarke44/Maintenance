@@ -653,7 +653,18 @@ PARTS = {
             "spec": "NLGI #2 Lithium EP Moly Grease",
             "capacity": "1–3 pumps per zerk"
         }
-    }
+    },
+        "ignition": {
+            "spark_plugs": {
+                "label": "Spark Plugs",
+                "oem": [
+                    "Denso FK20HR11",
+                    "NGK IFR6T11"
+                ],
+                "notes": "Factory heat range, iridium"
+            }
+        }
+
 }
 
 # ------------------ UI CONFIG ------------------
