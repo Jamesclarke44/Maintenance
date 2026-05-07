@@ -289,7 +289,7 @@ WORKSHOP = {
         "category": "Ignition",
         "interval_km": 192000,
         "OEM": [
-            "Denso FK20HR11"
+            "Denso FK20HR11",
             "NGK IFR6T11"
         ],
         "tools": [
