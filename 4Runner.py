@@ -980,6 +980,18 @@ elif menu == "🧰 Parts Database":
             st.write(f"Spec: {p['spec']}")
             st.write(f"Capacity: {p['capacity']}")
             st.markdown("---")
+            
+    elif section == "Ignition":
+        st.markdown("### 🔌 Ignition Components")
+        for key, p in PARTS["ignition"].items():
+            st.markdown(f"**{p['label']}**")
+            st.write("OEM Options:")
+            for item in p["oem"]:
+                st.write(f"- {item}")
+            if p["notes"]:
+                st.write(f"Notes: {p['notes']}")
+            st.markdown("---")
+
 
 # ------------------ MAINTENANCE TIMELINE (DROPDOWN VERSION) ------------------
 
