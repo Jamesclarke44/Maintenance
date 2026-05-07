@@ -516,7 +516,7 @@ WORKSHOP = {
         "Inspect pump, hoses, and rack for leaks",
         "Verify fluid level at HOT mark after driving"
     ]
-}
+},
 
 
     # ============================================================
