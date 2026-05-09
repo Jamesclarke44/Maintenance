@@ -8,7 +8,7 @@ from datetime import datetime
 
 FILE = "4runner_maintenance.json"
 MAX_KM = 300000
-SOON_THRESHOLD = 5000  # km
+SOON_THRESHOLD = 5000
 
 VEHICLE = {
     "year": 2017,
@@ -25,6 +25,7 @@ def load_data():
     try:
         with open(FILE, "r") as f:
             return json.load(f)
+
     except FileNotFoundError:
         return {
             "logs": [],
@@ -67,8 +68,10 @@ def get_next_due_status(km_now, name, spec, last_km):
 
     if km_now >= due_km:
         status = "overdue"
+
     elif remaining <= SOON_THRESHOLD:
         status = "soon"
+
     else:
         status = "ok"
 
@@ -84,10 +87,6 @@ def get_next_due_status(km_now, name, spec, last_km):
 # ============================================================
 
 WORKSHOP = {
-
-    # ========================================================
-    # ENGINE OIL
-    # ========================================================
 
     "engine_oil": {
         "category": "Fluids & Drivetrain",
@@ -116,20 +115,18 @@ WORKSHOP = {
             "14 mm socket",
             "Ratchet",
             "Torque wrench",
-            "Oil drain pan",
+            "Drain pan",
             "Funnel"
         ],
 
         "important_notes": [
             "Warm engine before draining",
-            "Replace crush washer every oil change",
-            "Do not overtighten drain plug"
+            "Replace crush washer every oil change"
         ],
 
         "common_mistakes": [
-            "Double-gasketing oil filter housing",
-            "Overfilling engine oil",
-            "Reusing crush washer"
+            "Overtightening drain plug",
+            "Overfilling engine oil"
         ],
 
         "workflow": [
@@ -137,14 +134,10 @@ WORKSHOP = {
             "Remove drain plug",
             "Install new crush washer",
             "Torque drain plug to 30 ft-lb",
-            "Refill with 5.7 L 0W-20",
+            "Refill with 5.7 L oil",
             "Check oil level"
         ]
     },
-
-    # ========================================================
-    # FRONT DIFFERENTIAL
-    # ========================================================
 
     "front_differential": {
         "category": "Fluids & Drivetrain",
@@ -169,6 +162,7 @@ WORKSHOP = {
                 "type": "Aluminum Washer",
                 "oem": "Toyota 12157-10010"
             },
+
             "drain_plug": {
                 "type": "Aluminum Washer",
                 "oem": "Toyota 12157-10010"
@@ -183,35 +177,29 @@ WORKSHOP = {
         ],
 
         "important_notes": [
-            "Always remove fill plug first",
-            "Vehicle must be level",
-            "Use GL-5 gear oil only"
+            "Remove fill plug first",
+            "Vehicle must be level"
         ],
 
         "common_mistakes": [
             "Removing drain plug before fill plug",
-            "Overtightening plugs",
-            "Using incorrect gear oil"
+            "Using incorrect fluid"
         ],
 
         "workflow": [
             "Remove fill plug first",
             "Remove drain plug",
-            "Drain fluid completely",
+            "Drain fluid",
             "Install drain plug",
-            "Fill until fluid drips from fill hole",
+            "Fill until overflow",
             "Install fill plug"
         ]
     },
 
-    # ========================================================
-    # TRANSMISSION
-    # ========================================================
-
     "transmission": {
         "category": "Fluids & Drivetrain",
         "difficulty": "Advanced",
-        "estimated_time": "1.5-2.5 hours",
+        "estimated_time": "2-3 hours",
         "fluid": "Toyota ATF WS",
         "capacity": "3.0-4.3 L per drain",
         "interval_km": 96000,
@@ -226,54 +214,37 @@ WORKSHOP = {
             "drain_plug": "14 mm"
         },
 
-        "washers": {
-            "drain_plug": {
-                "type": "Aluminum Crush Washer",
-                "oem": "Toyota 90430-12031"
-            }
-        },
-
         "tools": [
-            "24 mm socket",
-            "14 mm socket",
-            "ATF fill pump",
+            "ATF pump",
             "Torque wrench",
             "Scan tool"
         ],
 
         "important_notes": [
-            "Transmission temperature critical",
-            "Overflow procedure required",
-            "Vehicle must remain level"
+            "Vehicle must remain level",
+            "Transmission temperature critical"
         ],
 
         "temperature_notes": [
             "Overflow check at 40-45°C",
-            "Too cold = underfilled",
-            "Too hot = overfilled"
+            "Too hot = overfilled",
+            "Too cold = underfilled"
         ],
 
         "common_mistakes": [
             "Using non-WS fluid",
-            "Checking level at wrong temperature",
-            "Overfilling transmission"
+            "Incorrect overflow procedure"
         ],
 
         "workflow": [
-            "Warm transmission to 40°C",
+            "Warm transmission",
             "Remove fill plug first",
-            "Remove drain plug",
+            "Drain fluid",
             "Install drain plug",
-            "Fill with Toyota WS",
-            "Open overflow plug",
-            "Allow dribble",
-            "Install fill plug"
+            "Fill with WS fluid",
+            "Perform overflow procedure"
         ]
     },
-
-    # ========================================================
-    # SPARK PLUGS
-    # ========================================================
 
     "spark_plugs": {
         "category": "Ignition",
@@ -298,31 +269,23 @@ WORKSHOP = {
         ],
 
         "important_notes": [
-            "Engine must be cool",
-            "Do not overtighten plugs",
-            "Use factory heat range only"
+            "Engine should be cool",
+            "Use OEM heat range"
         ],
 
         "common_mistakes": [
             "Cross-threading spark plugs",
-            "Dropping plugs",
-            "Incorrect torque"
+            "Overtightening plugs"
         ],
 
         "workflow": [
             "Remove intake tube",
             "Disconnect coils",
-            "Remove coils",
             "Remove spark plugs",
             "Install new plugs",
-            "Torque to 15 ft-lb",
-            "Reinstall components"
+            "Torque to 15 ft-lb"
         ]
     },
-
-    # ========================================================
-    # TIRE ROTATION
-    # ========================================================
 
     "tire_rotation": {
         "category": "Tires & Wheels",
@@ -342,66 +305,16 @@ WORKSHOP = {
         ],
 
         "important_notes": [
-            "Torque wheels in star pattern",
-            "Retorque after 100 km",
-            "Inspect tires while removed"
-        ],
-
-        "common_mistakes": [
-            "Incorrect torque",
-            "Improper jack placement",
-            "Not checking tire pressure"
+            "Use star torque pattern",
+            "Retorque after 100 km"
         ],
 
         "workflow": [
             "Lift vehicle safely",
             "Rotate tires",
-            "Torque lug nuts to 83 ft-lb",
+            "Torque lug nuts",
             "Set tire pressures"
         ]
-    }
-}
-
-# ============================================================
-# PARTS DATABASE
-# ============================================================
-
-PARTS = {
-
-    "filters": {
-
-        "engine_oil_filter": {
-            "label": "Engine Oil Filter",
-            "oem": "Toyota 04152-YZZA5",
-            "notes": "Cartridge type"
-        },
-
-        "engine_air_filter": {
-            "label": "Engine Air Filter",
-            "oem": "Toyota 17801-31120",
-            "notes": ""
-        },
-
-        "cabin_air_filter": {
-            "label": "Cabin Air Filter",
-            "oem": "Toyota 87139-07010",
-            "notes": "Charcoal optional"
-        }
-    },
-
-    "fluids": {
-
-        "engine_oil": {
-            "label": "Engine Oil",
-            "spec": "0W-20 Full Synthetic",
-            "capacity": "5.7 L"
-        },
-
-        "transmission": {
-            "label": "Automatic Transmission",
-            "spec": "Toyota ATF WS",
-            "capacity": "3.0-4.3 L per drain"
-        }
     }
 }
 
@@ -429,7 +342,6 @@ menu = st.radio(
         "🛠 Service Mode",
         "📘 Workshop",
         "🔧 Torque Lookup",
-        "🧰 Parts Database",
         "📒 History"
     ]
 )
@@ -484,30 +396,36 @@ if menu == "📊 Dashboard":
             elif status["status"] == "never":
                 never.append(status)
 
-        st.markdown("## ✅ Next Due Summary")
+        st.markdown("## ✅ Service Summary")
 
         if overdue:
+
             st.markdown("### 🔴 Overdue")
 
             for s in overdue:
+
                 st.error(
                     f"{label(s['service'])} "
                     f"(due at {s['due_km']} km)"
                 )
 
         if soon:
+
             st.markdown("### 🟠 Due Soon")
 
             for s in soon:
+
                 st.warning(
                     f"{label(s['service'])} "
                     f"({s['remaining']} km remaining)"
                 )
 
         if never:
+
             st.markdown("### 🟡 Never Logged")
 
             for s in never:
+
                 st.warning(
                     f"{label(s['service'])}"
                 )
@@ -520,16 +438,35 @@ elif menu == "🛠 Service Mode":
 
     st.subheader("🛠 Service Mode")
 
+    # --------------------------------------------------------
+    # SEARCH
+    # --------------------------------------------------------
+
     search = st.text_input("Search Service")
 
     filtered = {}
 
     for k, spec in WORKSHOP.items():
 
-        if search.lower() in k.lower():
-            filtered[
-                f"{spec['category']} — {label(k)}"
-            ] = k
+        if search:
+            if search.lower() not in k.lower():
+                continue
+
+        filtered[
+            f"{spec['category']} — {label(k)}"
+        ] = k
+
+    # --------------------------------------------------------
+    # EMPTY SEARCH PROTECTION
+    # --------------------------------------------------------
+
+    if not filtered:
+        st.warning("No matching services found.")
+        st.stop()
+
+    # --------------------------------------------------------
+    # SERVICE SELECT
+    # --------------------------------------------------------
 
     service_display = st.selectbox(
         "Select Service",
@@ -540,6 +477,10 @@ elif menu == "🛠 Service Mode":
 
     spec = WORKSHOP[service]
 
+    # --------------------------------------------------------
+    # INPUTS
+    # --------------------------------------------------------
+
     km = st.number_input(
         "Current KM",
         0,
@@ -547,6 +488,10 @@ elif menu == "🛠 Service Mode":
     )
 
     notes = st.text_area("Notes")
+
+    # --------------------------------------------------------
+    # HEADER
+    # --------------------------------------------------------
 
     st.markdown(f"# 🔧 {label(service)}")
 
@@ -558,82 +503,146 @@ elif menu == "🛠 Service Mode":
     if "estimated_time" in spec:
         st.write(f"**Estimated Time:** {spec['estimated_time']}")
 
+    # --------------------------------------------------------
+    # FLUID
+    # --------------------------------------------------------
+
     if "fluid" in spec:
         st.markdown("## 🛢 Fluid")
         st.write(spec["fluid"])
+
+    # --------------------------------------------------------
+    # CAPACITY
+    # --------------------------------------------------------
 
     if "capacity" in spec:
         st.markdown("## 📦 Capacity")
         st.write(spec["capacity"])
 
+    # --------------------------------------------------------
+    # INTERVAL
+    # --------------------------------------------------------
+
     if "interval_km" in spec:
         st.markdown("## 🔁 Interval")
         st.write(f"{spec['interval_km']} km")
 
+    # --------------------------------------------------------
+    # OEM
+    # --------------------------------------------------------
+
     if "oem" in spec:
         st.markdown("## 🔌 OEM Parts")
+
         for item in spec["oem"]:
             st.write(f"- {item}")
 
+    # --------------------------------------------------------
+    # WASHERS
+    # --------------------------------------------------------
+
     if "washers" in spec:
+
         st.markdown("## 🫧 Washers")
 
         for k, w in spec["washers"].items():
+
             st.write(
                 f"- {label(k)}: "
                 f"{w['type']} "
                 f"({w['oem']})"
             )
 
+    # --------------------------------------------------------
+    # TOOLS
+    # --------------------------------------------------------
+
     if "tools" in spec:
+
         st.markdown("## 🧰 Tools")
 
         for t in spec["tools"]:
             st.write(f"- {t}")
 
+    # --------------------------------------------------------
+    # TORQUE
+    # --------------------------------------------------------
+
     if "torque" in spec:
+
         st.markdown("## 🔧 Torque Specs")
 
         for k, v in spec["torque"].items():
+
             st.write(
                 f"- {label(k)}: {v}"
             )
 
+    # --------------------------------------------------------
+    # SOCKETS
+    # --------------------------------------------------------
+
     if "sockets" in spec:
+
         st.markdown("## 🔩 Socket Sizes")
 
         for k, v in spec["sockets"].items():
+
             st.write(
                 f"- {label(k)}: {v}"
             )
 
+    # --------------------------------------------------------
+    # IMPORTANT NOTES
+    # --------------------------------------------------------
+
     if "important_notes" in spec:
+
         st.markdown("## ⚠ Important Notes")
 
         for note in spec["important_notes"]:
             st.warning(note)
 
+    # --------------------------------------------------------
+    # TEMPERATURE NOTES
+    # --------------------------------------------------------
+
     if "temperature_notes" in spec:
+
         st.markdown("## 🌡 Temperature Notes")
 
         for note in spec["temperature_notes"]:
             st.info(note)
 
+    # --------------------------------------------------------
+    # COMMON MISTAKES
+    # --------------------------------------------------------
+
     if "common_mistakes" in spec:
+
         st.markdown("## ❌ Common Mistakes")
 
         for mistake in spec["common_mistakes"]:
             st.error(mistake)
+
+    # --------------------------------------------------------
+    # WORKFLOW CHECKLIST
+    # --------------------------------------------------------
 
     st.markdown("## 📋 Workflow Checklist")
 
     workflow = spec.get("workflow", [])
 
     for i, step in enumerate(workflow):
+
         st.checkbox(
             step,
             key=f"{service}_{i}"
         )
+
+    # --------------------------------------------------------
+    # SAVE BUTTON
+    # --------------------------------------------------------
 
     if st.button("✔ Save Service"):
 
@@ -658,27 +667,16 @@ elif menu == "📘 Workshop":
 
     st.subheader("📘 Workshop")
 
-    search = st.text_input("Search Workshop")
-
-    categories = {}
-
-    for name, spec in WORKSHOP.items():
-
-        if search.lower() not in name.lower():
-            continue
-
-        cat = spec["category"]
-
-        if cat not in categories:
-            categories[cat] = []
-
-        categories[cat].append((name, spec))
-
-    for category, items in categories.items():
+    for category in sorted(
+        set(spec["category"] for spec in WORKSHOP.values())
+    ):
 
         st.markdown(f"# 🗂 {category}")
 
-        for name, spec in items:
+        for name, spec in WORKSHOP.items():
+
+            if spec["category"] != category:
+                continue
 
             with st.expander(label(name)):
 
@@ -696,11 +694,10 @@ elif menu == "📘 Workshop":
                         st.write(f"**{label(k)}:**")
 
                         for kk, vv in v.items():
-                            st.write(
-                                f"- {label(kk)}: {vv}"
-                            )
+                            st.write(f"- {label(kk)}: {vv}")
 
                     else:
+
                         st.write(
                             f"**{label(k)}:** {v}"
                         )
@@ -713,9 +710,7 @@ elif menu == "🔧 Torque Lookup":
 
     st.subheader("🔧 Torque Lookup")
 
-    query = st.text_input(
-        "Search Torque"
-    )
+    query = st.text_input("Search")
 
     if query:
 
@@ -728,9 +723,7 @@ elif menu == "🔧 Torque Lookup":
 
             for k, v in spec["torque"].items():
 
-                search_text = (
-                    f"{name} {k}"
-                ).lower()
+                search_text = f"{name} {k}".lower()
 
                 if q in search_text:
 
@@ -758,65 +751,12 @@ elif menu == "🔧 Torque Lookup":
                     st.markdown("---")
 
 # ============================================================
-# PARTS DATABASE
-# ============================================================
-
-elif menu == "🧰 Parts Database":
-
-    st.subheader("🧰 Parts Database")
-
-    section = st.selectbox(
-        "Category",
-        [
-            "Filters",
-            "Fluids"
-        ]
-    )
-
-    if section == "Filters":
-
-        for key, p in PARTS["filters"].items():
-
-            st.markdown(
-                f"## {p['label']}"
-            )
-
-            st.write(
-                f"OEM: {p['oem']}"
-            )
-
-            if p["notes"]:
-                st.write(
-                    f"Notes: {p['notes']}"
-                )
-
-            st.markdown("---")
-
-    elif section == "Fluids":
-
-        for key, p in PARTS["fluids"].items():
-
-            st.markdown(
-                f"## {p['label']}"
-            )
-
-            st.write(
-                f"Spec: {p['spec']}"
-            )
-
-            st.write(
-                f"Capacity: {p['capacity']}"
-            )
-
-            st.markdown("---")
-
-# ============================================================
 # HISTORY
 # ============================================================
 
 elif menu == "📒 History":
 
-    st.subheader("📒 Service History")
+    st.subheader("📒 History")
 
     if not data["logs"]:
 
