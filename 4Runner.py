@@ -442,7 +442,7 @@ WORKSHOP = {
         "interval_km": 16000,
         "tools": ["Fuel system cleaner bottle"],
         "workflow": [
-            "Pour cleaner into fuel tank"
+            "Pour cleaner into fuel tank at 1/4 tank and immediately fill up gas tank"
         ]
     },
 
