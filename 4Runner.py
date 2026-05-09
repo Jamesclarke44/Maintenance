@@ -292,15 +292,10 @@ WORKSHOP = {
         "tools": [
             "10 mm socket",
             "14 mm spark plug socket",
-            "Locking Extensions",
+            "Extensions",
             "Torque wrench"
         ],
-        "torque": {
-            "spark_plug": "15 ft-lb"
-        },
-        "sockets": {
-            "spark_plug": "14 mm"
-        },
+        "torque": {"spark_plug": "15 ft-lb"},
         "workflow": [
             "Remove intake tube",
             "Disconnect coil connectors",
@@ -769,7 +764,7 @@ elif menu == "🛠 Service Mode":
 
     km = st.number_input("Current KM", 0, step=100)
     notes = st.text_area("Notes")
-(
+
     spec = WORKSHOP[service]
 
     st.markdown(f"## 🔧 {label(service)}")
