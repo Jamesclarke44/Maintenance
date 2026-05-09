@@ -296,6 +296,9 @@ WORKSHOP = {
             "Torque wrench"
         ],
         "torque": {"spark_plug": "15 ft-lb"},
+        "sockets": {
+            "spark_plug": "14 mm"
+        },
         "workflow": [
             "Remove intake tube",
             "Disconnect coil connectors",
