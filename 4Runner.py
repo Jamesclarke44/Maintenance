@@ -440,6 +440,12 @@ WORKSHOP = {
     "fuel_system_cleaner": {
         "category": "Engine Components",
         "interval_km": 16000,
+        "recommended_products": [
+            "Chevron Techron Concentrate Plus",
+            "Red Line SI-1 Complete Fuel System Cleaner",
+            "BG 44K Fuel System Cleaner",
+            "Liqui Moly Jectron Fuel Injection Cleaner"
+        ],
         "tools": ["Fuel system cleaner bottle"],
         "workflow": [
             "Pour cleaner into fuel tank at 1/4 tank of gas and immediately fill up gas tank"
