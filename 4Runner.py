@@ -286,7 +286,7 @@ WORKSHOP = {
         "category": "Ignition",
         "interval_km": 192000,
         "oem": [
-            "Denso FK20HR11",
+            "Denso SK20HR11",
             "NGK IFR6T11"
         ],
         "tools": [
@@ -663,7 +663,7 @@ PARTS = {
             "spark_plugs": {
                 "label": "Spark Plugs",
                 "oem": [
-                    "Denso FK20HR11",
+                    "Denso SK20HR11",
                     "NGK IFR6T11"
                 ],
                 "notes": "Factory heat range, iridium"
