@@ -566,7 +566,24 @@ WORKSHOP = {
             "Remove old blade",
             "Install new blade"
         ]
-    }
+    },
+        "jacking_points": {
+        "category": "Lifting & Support",
+        "tools": [
+            "3-ton floor jack",
+            "3–6 ton jack stands",
+            "Wheel chocks"
+        ],
+        "workflow": [
+            "Front Jacking Point: Position the floor jack under the front crossmember located behind the radiator support.",
+            "Rear Jacking Point: Position the floor jack under the rear differential pumpkin (center of axle).",
+            "Side Jack Points: Use the reinforced pinch welds behind the front wheels and ahead of the rear wheels.",
+            "Front Jack-Stand Points: Place jack stands under the frame rails behind the lower control arms.",
+            "Rear Jack-Stand Points: Place jack stands under the axle tubes or the frame rails ahead of the rear lower control arm mounts.",
+            "Always chock wheels and lift on level ground.",
+            "Never support the vehicle on the front crossmember or rear differential — use only the designated stand points."
+        ]
+    },
 }
 # ------------------ PARTS DATABASE ------------------
 
