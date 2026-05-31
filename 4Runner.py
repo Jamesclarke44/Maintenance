@@ -925,11 +925,69 @@ def render_parts_database():
                 st.write(f"Notes: {p['notes']}")
             st.markdown("---")
 
-
 def render_maintenance_timeline():
-    st.subheader("📅 Maintenance Timeline")
-    st.info("Timeline view not fully implemented yet, but all interval logic is available in Dashboard and Service Mode.")
+    st.subheader("📅 Maintenance Timeline (0–300,000 km)")
 
+    km_now = st.number_input("Current KM", 0, step=100)
+
+    st.markdown("### 📂 Select a category to expand")
+
+    # Group services by category
+    categories = {}
+    for name, spec in WORKSHOP.items():
+        cat = spec["category"]
+        categories.setdefault(cat, []).append((name, spec))
+
+    for category, items in categories.items():
+        with st.expander(f"🗂 {category}", expanded=False):
+
+            for name, spec in items:
+
+                interval = spec.get("interval_km")
+                if not interval:
+                    continue  # skip items without intervals
+
+                last = data["last_service"].get(name)
+
+                st.markdown(f"## 🔧 {label(name)}")
+
+                # Show interval info
+                st.write(f"**Primary Interval:** {interval} km")
+                if "secondary_interval_km" in spec:
+                    st.write(f"**Secondary Interval:** {spec['secondary_interval_km']} km")
+
+                if last is not None:
+                    st.write(f"**Last Recorded Service:** {last} km")
+                else:
+                    st.write("**Last Recorded Service:** —")
+
+                st.markdown("#### 🔍 Interval Points (0–300,000 km)")
+
+                # Generate interval points
+                points = []
+                km_point = interval
+                while km_point <= MAX_KM:
+                    points.append(km_point)
+                    km_point += interval
+
+                # Display timeline with status icons
+                for p in points:
+                    if last is not None and last >= p:
+                        icon = "✅"
+                        status = "completed"
+                    elif km_now >= p:
+                        icon = "🔴"
+                        status = "overdue"
+                    elif p - km_now <= SOON_THRESHOLD:
+                        icon = "🟠"
+                        status = "soon"
+                    else:
+                        icon = "⚪"
+                        status = "upcoming"
+
+                    st.write(f"- {icon} **{p} km** — {status}")
+
+                st.markdown("---")
 
 def render_history():
     st.subheader("📒 Service History")
