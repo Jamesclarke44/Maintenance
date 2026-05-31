@@ -984,6 +984,22 @@ elif menu == "🧰 Parts Database":
             if p["notes"]:
                 st.write(f"Notes: {p['notes']}")
             st.markdown("---")
+# ------------------ HISTORY ------------------
+
+elif menu == "📒 History":
+    st.subheader("📒 Service History")
+
+    if not data["logs"]:
+        st.info("No service history recorded yet.")
+    else:
+        for entry in reversed(data["logs"]):
+            st.markdown("### 🛠 " + label(entry["service"]))
+            st.write(f"**KM:** {entry['km']}")
+            st.write(f"**Date:** {entry['date']}")
+            if entry["notes"]:
+                st.write(f"**Notes:** {entry['notes']}")
+            st.markdown("---")
+
 
     elif section == "Washers":
         st.markdown("### 🫧 Crush Washers")
